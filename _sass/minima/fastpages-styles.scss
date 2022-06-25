@@ -29,42 +29,42 @@ img.emoji{
 
 // make non-headings slightly lighter
 .post-content p, .post-content li {
-   font-size: 10px;
+   font-size: 20px;
    color: #515151;
 }
 
 .post-link{
-    font-weight: thin;
+    font-weight: normal;
 }
 
 // change padding of headings
 h1 {
-    margin-top:0.2rem !important;
+    margin-top:2.5rem !important;
 }
 
 h2 {
-    margin-top:0.2rem !important;      
+    margin-top:2rem !important;      
 }
 
 h3, h4 {
-    margin-top:0.2rem !important;      
+    margin-top:1.5rem !important;      
 }
 
 p {
-    margin-top:0.2rem !important; 
-    margin-bottom:0.2rem !important;   
+    margin-top:1rem !important; 
+    margin-bottom:1rem !important;   
 }
 
 h1, h2, h3, h4 {
     font-weight: normal !important;
-    margin-bottom:0.2rem !important;  
+    margin-bottom:0.5rem !important;  
     code {
-      font-size: 50%;
+      font-size: 100%;
     }
 }
 
 pre {
-    margin-bottom:0.5rem !important; 
+    margin-bottom:1.5rem !important; 
 }
 
 // make sure the post title doesn't have too much spacing
@@ -77,7 +77,7 @@ li {
   }
   .post-meta-description {
     color: rgb(88, 88, 88);
-    font-size: 8px;
+    font-size: 15px;
     margin-top:.05rem !important;
     margin-bottom:.05rem !important;
   }
@@ -139,29 +139,29 @@ h6:hover .anchor-link {
 // category tags
 .category-tags {
   margin-top: .25rem !important;
-  margin-bottom: .05rem !important;
-  font-size: 100%;
+  margin-bottom: .25rem !important;
+  font-size: 105%;
 }
 
 // Custom styling for homepage post previews
 .post-meta-title, .post-meta{
-  margin-top: .10em !important;
-  margin-bottom: .10em !important;
-  font-size: 100%;
+  margin-top: .25em !important;
+  margin-bottom: .25em !important;
+  font-size: 105%;
 }
 
 .page-description {
   margin-top: .5rem !important;
   margin-bottom: .5rem !important;
   color: #585858;
-  font-size: 50%;
+  font-size: 115%;
 }
 
 // Custom styling for category tags
 .category-tags-icon {
   font-size: 75% !important;
   padding-left: 0.375em;
-  opacity: 85%;
+  opacity: 35%;
 }
 .category-tags-link {
   color:rgb(187, 129, 129) !important;
@@ -198,8 +198,8 @@ h6:hover .anchor-link {
 
 table {
   white-space: normal;
-  max-width: 50%;
-  font-size: 50%;
+  max-width: 100%;
+  font-size: 100%;
   border:none;
   th{
     text-align: center! important;
