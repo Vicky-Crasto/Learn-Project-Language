@@ -29,7 +29,7 @@ img.emoji{
 
 // make non-headings slightly lighter
 .post-content p, .post-content li {
-   font-size: 20px;
+   font-size: 10px;
    color: #515151;
 }
 
@@ -140,14 +140,14 @@ h6:hover .anchor-link {
 .category-tags {
   margin-top: .25rem !important;
   margin-bottom: .05rem !important;
-  font-size: 50%;
+  font-size: 100%;
 }
 
 // Custom styling for homepage post previews
 .post-meta-title, .post-meta{
   margin-top: .10em !important;
   margin-bottom: .10em !important;
-  font-size: 50%;
+  font-size: 100%;
 }
 
 .page-description {
@@ -161,7 +161,7 @@ h6:hover .anchor-link {
 .category-tags-icon {
   font-size: 75% !important;
   padding-left: 0.375em;
-  opacity: 35%;
+  opacity: 85%;
 }
 .category-tags-link {
   color:rgb(187, 129, 129) !important;
@@ -198,8 +198,8 @@ h6:hover .anchor-link {
 
 table {
   white-space: normal;
-  max-width: 100%;
-  font-size: 100%;
+  max-width: 50%;
+  font-size: 50%;
   border:none;
   th{
     text-align: center! important;
