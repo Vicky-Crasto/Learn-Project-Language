@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" rel="self" type="application/atom+xml" /><link href="https://vicky-crasto.github.io/Learn-Project-Language/" rel="alternate" type="text/html" /><updated>2022-06-25T08:49:32-05:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/feed.xml</id><title type="html">My experiments with NLP</title><subtitle>My learning notes for Natural Language processing</subtitle><entry><title type="html">Coe_policing_equity</title><link href="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity.html" rel="alternate" type="text/html" title="Coe_policing_equity" /><published>2022-06-25T00:00:00-05:00</published><updated>2022-06-25T00:00:00-05:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity</id><content type="html" xml:base="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity.html"><![CDATA[<h3 id="libraries-needed">Libraries needed</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" rel="self" type="application/atom+xml" /><link href="https://vicky-crasto.github.io/Learn-Project-Language/" rel="alternate" type="text/html" /><updated>2022-06-25T08:55:09-05:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/feed.xml</id><title type="html">My experiments with NLP</title><subtitle>My learning notes for Natural Language processing</subtitle><entry><title type="html">Coe_policing_equity</title><link href="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/26/COE_policing_equity.html" rel="alternate" type="text/html" title="Coe_policing_equity" /><published>2022-06-26T00:00:00-05:00</published><updated>2022-06-26T00:00:00-05:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/2022/06/26/COE_policing_equity</id><content type="html" xml:base="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/26/COE_policing_equity.html"><![CDATA[<h3 id="libraries-needed">Libraries needed</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-## Warning: package 'tidyverse' was built under R version 4.1.3
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: package 'tidyverse' was built under R version 4.1.3
 
 ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
 
@@ -16,10 +17,12 @@
 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
+</code></pre></div></div>
 
-library(lubridate)
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-## 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
 ## Attaching package: 'lubridate'
 
 ## The following objects are masked from 'package:base':
@@ -29,10 +32,11 @@ library(lubridate)
 
 <h3 id="reading-the-data">Reading the data</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df &lt;- read.csv("37-00049_UOF-P_2016_prepped.csv", header = T, stringsAsFactors = F)
-head(coe_df)
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"37-00049_UOF-P_2016_prepped.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">coe_df</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-##   INCIDENT_DATE INCIDENT_TIME    UOF_NUMBER OFFICER_ID OFFICER_GENDER
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##   INCIDENT_DATE INCIDENT_TIME    UOF_NUMBER OFFICER_ID OFFICER_GENDER
 ## 1    OCCURRED_D    OCCURRED_T        UOFNum CURRENT_BA         OffSex
 ## 2        9/3/16    4:14:00 AM         37702      10810           Male
 ## 3       3/22/16   11:00:00 PM         33413       7706           Male
@@ -123,93 +127,97 @@ head(coe_df)
 ## 4                                  NULL             Yes
 ## 5                                  NULL             Yes
 ## 6                                  NULL         No, Yes
-
-### Removing the first row
-
-coe_df &lt;- coe_df[-1,]
 </code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">### Removing the first row</span><span class="w">
+
+</span><span class="n">coe_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coe_df</span><span class="p">[</span><span class="m">-1</span><span class="p">,]</span><span class="w">
+</span></code></pre></div></div>
 
 <p>###Changing the format of variables</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df$INCIDENT_DATE &lt;- as.Date(coe_df$INCIDENT_DATE, "%m/%d/%y")
-coe_df$INCIDENT_TIME &lt;- parse_date_time(coe_df$INCIDENT_TIME,  "%I:%M:%S %p")
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_DATE</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_DATE</span><span class="p">,</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">)</span><span class="w">
+</span><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_TIME</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">parse_date_time</span><span class="p">(</span><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_TIME</span><span class="p">,</span><span class="w">  </span><span class="s2">"%I:%M:%S %p"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-## Warning: 10 failed to parse.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: 10 failed to parse.
 </code></pre></div></div>
 
 <h4 id="creating-two-additional-variables">Creating two additional variables.</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Creating month varible
-coe_df$month &lt;- month(coe_df$INCIDENT_DATE, label = T, abbr = T)
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">### Creating month varible</span><span class="w">
+</span><span class="n">coe_df</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_DATE</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">abbr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
 
-### Creating time of day variable
-coe_df$timeofday &lt;- cut(hour(coe_df$INCIDENT_TIME),breaks = c(-Inf,6,12,4,9,23), labels = c("Night", "Morning","Afternoon","Evening", "Night"))
-</code></pre></div></div>
+</span><span class="c1">### Creating time of day variable</span><span class="w">
+</span><span class="n">coe_df</span><span class="o">$</span><span class="n">timeofday</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">hour</span><span class="p">(</span><span class="n">coe_df</span><span class="o">$</span><span class="n">INCIDENT_TIME</span><span class="p">),</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="o">-</span><span class="kc">Inf</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">12</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">9</span><span class="p">,</span><span class="m">23</span><span class="p">),</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Night"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Morning"</span><span class="p">,</span><span class="s2">"Afternoon"</span><span class="p">,</span><span class="s2">"Evening"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Night"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
 
 <h3 id="1-have-the-number-of-policing-incidents-remained-constant-through-the-year">1. Have the number of policing incidents remained constant through the year?</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  group_by(month)%&gt;%
-  summarise(incident_count = n())-&gt; incidentsbyyear
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyyear</span><span class="w">
 
 
-plot1 &lt;- ggplot(data = incidentsbyyear,
-                aes(x = month, y= incident_count)) + 
-  geom_bar(stat = "identity",fill = "steelblue") +
-  labs(title= "Number of incidents by month", 
-       x = "Months", 
-       y = "Number of incidents")
+</span><span class="n">plot1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyyear</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"steelblue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents by month"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Months"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
 
-plot1   
-</code></pre></div></div>
+</span><span class="n">plot1</span><span class="w">   
+</span></code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-5-1.png" alt="" /></p>
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
 
 <p>We see that number of policing incidents have been decreasing over the
 year.</p>
 
 <h3 id="2-at-what-time-of-the-day-are-the-incident-most-frequent">2. At what time of the day are the incident most frequent?</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  group_by(timeofday)%&gt;%
-  summarise(incident_count = n())-&gt; incidentsbytimeofday
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">timeofday</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbytimeofday</span><span class="w">
 
 
-plot2 &lt;- ggplot(data = incidentsbytimeofday,
-                aes(x = timeofday, y= incident_count)) + 
-  geom_bar(stat = "identity",fill = "steelblue") +
-  labs(title= "Number of incidents by Time of day", 
-       x = "Time of day", 
-       y = "Number of incidents")
+</span><span class="n">plot2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbytimeofday</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timeofday</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"steelblue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents by Time of day"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Time of day"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
 
-plot2
-</code></pre></div></div>
+</span><span class="n">plot2</span><span class="w">
+</span></code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-6-1.png" alt="" /></p>
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
 
 <p>We see that majority of the incidents occur at night, that is between 9
 PM to 6 AM in the morning.</p>
 
 <h3 id="3-does-the-distribution-of-the-policing-incidents-and-the-gender-and-race-of-the-officer-have-any-relation">3. Does the distribution of the policing incidents and the gender and race of the officer have any relation.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  group_by(OFFICER_GENDER, OFFICER_RACE)%&gt;%
-  summarise(incident_count = n())-&gt; incidentsbyofficer
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">OFFICER_GENDER</span><span class="p">,</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyofficer</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
 ## `.groups` argument.
-
-plot3 &lt;- ggplot(data = incidentsbyofficer,
-                aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_GENDER )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Number of incidents by Race of the officer", 
-       x = "Race of the officer", 
-       y = "Number of incidents")
-
-plot3
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-7-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyofficer</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_GENDER</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents by Race of the officer"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the officer"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot3</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
 
 <p>We see that most of the officers involved in the reported incidence are
 White. Also we find that male officer are in majority compared to female
@@ -218,50 +226,54 @@ number of reported incidences.</p>
 
 <h3 id="4-does-the-gender-of-the-officer-and-the-time-of-day-occurence-have-any-relation">4. Does the gender of the officer and the time of day occurence have any relation.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(timeofday!="NA")%&gt;%
-  group_by(OFFICER_GENDER, timeofday)%&gt;%
-  summarise(incident_count = n())-&gt; incidentsbyoffday
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">timeofday</span><span class="o">!=</span><span class="s2">"NA"</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">OFFICER_GENDER</span><span class="p">,</span><span class="w"> </span><span class="n">timeofday</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyoffday</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
 ## `.groups` argument.
-
-plot4 &lt;- ggplot(data = incidentsbyoffday,
-                aes(x = timeofday, y= incident_count, fill = OFFICER_GENDER )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Number of incidents by Time of day", 
-       x = "Time of day", 
-       y = "Number of incidents")
-
-plot4
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-8-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyoffday</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timeofday</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_GENDER</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents by Time of day"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Time of day"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot4</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
 
 <p>We see that both the gender the reported incidents are majorly in the
 night.</p>
 
 <h3 id="5-does-the-race-of-the-officer-has-any-relationship-of-getting-injuried-during-the-policing-incident">5. Does the Race of the officer has any relationship of getting injuried during the policing incident</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(timeofday!="NA")%&gt;%
-  group_by(OFFICER_RACE, OFFICER_INJURY)%&gt;%
-  summarise(incident_count = n())-&gt; incidentsbyinjury
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">timeofday</span><span class="o">!=</span><span class="s2">"NA"</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">OFFICER_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">OFFICER_INJURY</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyinjury</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'OFFICER_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'OFFICER_RACE'. You can override using the
 ## `.groups` argument.
-
-plot5 &lt;- ggplot(data = incidentsbyinjury,
-                aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_INJURY )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Injury to officer and their Race", 
-       x = "Race of the officer", 
-       y = "Number of incidents")
-
-plot5
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-9-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyinjury</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_INJURY</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Injury to officer and their Race"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the officer"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot5</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
 
 <p>We see that majorly officers and not been injured in the incident. Among
 those who were injuried we see that most of them are White.</p>
@@ -271,26 +283,28 @@ injuried.</p>
 
 <h3 id="6-does-the-race-of-subject-and-the-time-of-day-of-the-incident-has-any-relationship">6. Does the race of subject and the time of day of the incident has any relationship.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(timeofday!="NA",SUBJECT_RACE!="NULL" )%&gt;%
-  group_by(SUBJECT_RACE, timeofday)%&gt;%
-  summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbysubday
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">timeofday</span><span class="o">!=</span><span class="s2">"NA"</span><span class="p">,</span><span class="n">SUBJECT_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="w"> </span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">timeofday</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="n">filter</span><span class="p">(</span><span class="n">incident_count</span><span class="o">&gt;</span><span class="m">20</span><span class="p">)</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbysubday</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
 ## `.groups` argument.
-
-plot6 &lt;- ggplot(data = incidentsbysubday,
-                aes(x = SUBJECT_RACE, y= incident_count, fill = timeofday )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Race of the subject and time of day", 
-       x = "Race of subject", 
-       y = "Number of incidents")+
-  coord_flip()
-
-plot6
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-10-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot6</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbysubday</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timeofday</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the subject and time of day"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of subject"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+
+</span><span class="n">plot6</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
 
 <p>We see that Black subject are mostly in incidences reported in the night
 or in the evening. There are some case reported the afternoon, but very
@@ -303,26 +317,28 @@ afternoon.</p>
 
 <h3 id="7-does-the-race-of-subject-and-the-division-of-the-reported-incident-has-any-relationship">7. Does the race of subject and the division of the reported incident has any relationship.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(SUBJECT_RACE!="NULL" )%&gt;%
-  group_by(SUBJECT_RACE, DIVISION)%&gt;%
-  summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbydivision
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="w"> </span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">DIVISION</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="n">filter</span><span class="p">(</span><span class="n">incident_count</span><span class="o">&gt;</span><span class="m">20</span><span class="p">)</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbydivision</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
 ## `.groups` argument.
-
-plot7 &lt;- ggplot(data = incidentsbydivision,
-                aes(x = DIVISION, y= incident_count, fill = SUBJECT_RACE )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Race of the subject and Division", 
-       x = "Division", 
-       y = "Number of incidents")+
-  coord_flip()
-
-plot7
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-11-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbydivision</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DIVISION</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_RACE</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the subject and Division"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Division"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+
+</span><span class="n">plot7</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
 
 <p>In the South East, South Central, North East and Central division
 majority of the incidents have Black subjects.</p>
@@ -334,75 +350,81 @@ Central there are a significant number of white subjects.</p>
 
 <h3 id="8-does-the-race-of-subject-and-the-arrest-has-any-relationship">8. Does the race of subject and the arrest has any relationship</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(SUBJECT_RACE!="NULL" )%&gt;%
-  group_by(SUBJECT_RACE, SUBJECT_WAS_ARRESTED)%&gt;%
-  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyarrest
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="w"> </span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">SUBJECT_WAS_ARRESTED</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="n">filter</span><span class="p">(</span><span class="n">incident_count</span><span class="o">&gt;</span><span class="m">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyarrest</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
 ## `.groups` argument.
-
-plot8 &lt;- ggplot(data = incidentsbyarrest,
-                aes(x = SUBJECT_RACE, y= incident_count, fill = SUBJECT_WAS_ARRESTED )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Race of the subject and Arrest Status", 
-       x = "Race of the subject", 
-       y = "Number of incidents")
-
-plot8
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-12-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot8</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyarrest</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_WAS_ARRESTED</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the subject and Arrest Status"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the subject"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot8</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" /></p>
 
 <p>We see that most the subject irrespective of the race have been
 arrested.</p>
 
 <h3 id="9-does-the-race-of-officer-and-the-race-of-the-subject-has-any-evident-relationship">9. Does the race of officer and the race of the subject has any evident relationship.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;%
-  group_by(SUBJECT_RACE, OFFICER_RACE)%&gt;%
-  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyrace
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="p">,</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="n">filter</span><span class="p">(</span><span class="n">incident_count</span><span class="o">&gt;</span><span class="m">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyrace</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
 ## `.groups` argument.
-
-plot9 &lt;- ggplot(data = incidentsbyrace,
-                aes(x = OFFICER_RACE, y= incident_count, fill = SUBJECT_RACE )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Race of subject vs Race of officer", 
-       x = "Race of the Officer", 
-       y = "Number of incidents")
-
-plot9
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-13-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot9</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyrace</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_RACE</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of subject vs Race of officer"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the Officer"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot9</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-13-1.png" alt="" /></p>
 
 <p>Irrespective of the race of the officer, most of the incidents involve
 black subject followed by Hispanic and White.</p>
 
 <h3 id="10-does-the-race-of-subject-and-the-uof-has-any-relationship">10. Does the race of subject and the UOF has any relationship.</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
-  filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;%
-  group_by(SUBJECT_RACE, REASON_FOR_FORCE)%&gt;%
-  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyUOF
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coe_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="p">,</span><span class="w"> </span><span class="n">OFFICER_RACE</span><span class="o">!=</span><span class="s2">"NULL"</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">REASON_FOR_FORCE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">incident_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="n">filter</span><span class="p">(</span><span class="n">incident_count</span><span class="o">&gt;</span><span class="m">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="w"> </span><span class="n">incidentsbyUOF</span><span class="w">
+</span></code></pre></div></div>
 
-## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
 ## `.groups` argument.
-
-plot10 &lt;- ggplot(data = incidentsbyUOF,
-                aes(x = SUBJECT_RACE, y= incident_count, fill = REASON_FOR_FORCE )) + 
-  geom_bar(stat = "identity") +
-  labs(title= "Race of subject and reason for use of force", 
-       x = "Race of the Subject", 
-       y = "Number of incidents")
-
-plot10
 </code></pre></div></div>
 
-<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-14-1.png" alt="" /></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot10</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">incidentsbyUOF</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SUBJECT_RACE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="w"> </span><span class="n">incident_count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REASON_FOR_FORCE</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of subject and reason for use of force"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Race of the Subject"</span><span class="p">,</span><span class="w"> 
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of incidents"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot10</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="" /></p>
 
 <p>We see that across race of the subject, the chief reason for the use of
 force is Arrest, Active Aggression and Danger to self or others.</p>
@@ -914,7 +936,473 @@ Hamilton   Mythology ....144
 </div>
     
 
-</div>]]></content><author><name></name></author><category term="NLP" /><summary type="html"><![CDATA[Learning to use F string for printing. Also alignment and padding of Fstring. Formating of dates while using Fstring is also shown.]]></summary></entry><entry><title type="html">Fastpages Notebook Blog Post</title><link href="https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test.html" rel="alternate" type="text/html" title="Fastpages Notebook Blog Post" /><published>2020-02-20T00:00:00-06:00</published><updated>2020-02-20T00:00:00-06:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test</id><content type="html" xml:base="https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test.html"><![CDATA[<!--
+</div>]]></content><author><name></name></author><category term="NLP" /><summary type="html"><![CDATA[Learning to use F string for printing. Also alignment and padding of Fstring. Formating of dates while using Fstring is also shown.]]></summary></entry><entry><title type="html">Coe_policing_equity</title><link href="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity.html" rel="alternate" type="text/html" title="Coe_policing_equity" /><published>2022-06-25T00:00:00-05:00</published><updated>2022-06-25T00:00:00-05:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity</id><content type="html" xml:base="https://vicky-crasto.github.io/Learn-Project-Language/2022/06/25/COE_policing_equity.html"><![CDATA[<h3 id="libraries-needed">Libraries needed</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+
+## Warning: package 'tidyverse' was built under R version 4.1.3
+
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.5     v dplyr   1.0.7
+## v tidyr   1.1.4     v stringr 1.4.0
+## v readr   2.1.2     v forcats 0.5.1
+
+## Warning: package 'readr' was built under R version 4.1.3
+
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+
+library(lubridate)
+
+## 
+## Attaching package: 'lubridate'
+
+## The following objects are masked from 'package:base':
+## 
+##     date, intersect, setdiff, union
+</code></pre></div></div>
+
+<h3 id="reading-the-data">Reading the data</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df &lt;- read.csv("37-00049_UOF-P_2016_prepped.csv", header = T, stringsAsFactors = F)
+head(coe_df)
+
+##   INCIDENT_DATE INCIDENT_TIME    UOF_NUMBER OFFICER_ID OFFICER_GENDER
+## 1    OCCURRED_D    OCCURRED_T        UOFNum CURRENT_BA         OffSex
+## 2        9/3/16    4:14:00 AM         37702      10810           Male
+## 3       3/22/16   11:00:00 PM         33413       7706           Male
+## 4       5/22/16    1:29:00 PM         34567      11014           Male
+## 5       1/10/16    8:55:00 PM         31460       6692           Male
+## 6       11/8/16    2:30:00 AM  37879, 37898       9844           Male
+##   OFFICER_RACE OFFICER_HIRE_DATE OFFICER_YEARS_ON_FORCE OFFICER_INJURY
+## 1      OffRace           HIRE_DT    INCIDENT_DATE_LESS_     OFF_INJURE
+## 2        Black            5/7/14                      2             No
+## 3        White            1/8/99                     17            Yes
+## 4        Black           5/20/15                      1             No
+## 5        Black           7/29/91                     24             No
+## 6        White           10/4/09                      7             No
+##            OFFICER_INJURY_TYPE OFFICER_HOSPITALIZATION SUBJECT_ID SUBJECT_RACE
+## 1              OFF_INJURE_DESC              OFF_HOSPIT     CitNum      CitRace
+## 2 No injuries noted or visible                      No      46424        Black
+## 3                Sprain/Strain                     Yes      44324     Hispanic
+## 4 No injuries noted or visible                      No      45126     Hispanic
+## 5 No injuries noted or visible                      No      43150     Hispanic
+## 6 No injuries noted or visible                      No      47307        Black
+##   SUBJECT_GENDER SUBJECT_INJURY          SUBJECT_INJURY_TYPE
+## 1         CitSex     CIT_INJURE             SUBJ_INJURE_DESC
+## 2         Female            Yes      Non-Visible Injury/Pain
+## 3           Male             No No injuries noted or visible
+## 4           Male             No No injuries noted or visible
+## 5           Male            Yes               Laceration/Cut
+## 6           Male             No No injuries noted or visible
+##   SUBJECT_WAS_ARRESTED SUBJECT_DESCRIPTION          SUBJECT_OFFENSE
+## 1           CIT_ARREST          CIT_INFL_A               CitChargeT
+## 2                  Yes   Mentally unstable                    APOWW
+## 3                  Yes   Mentally unstable                    APOWW
+## 4                  Yes             Unknown                    APOWW
+## 5                  Yes FD-Unknown if Armed           Evading Arrest
+## 6                  Yes             Unknown Other Misdemeanor Arrest
+##   REPORTING_AREA BEAT SECTOR      DIVISION LOCATION_DISTRICT STREET_NUMBER
+## 1             RA BEAT SECTOR      DIVISION         DIST_NAME      STREET_N
+## 2           2062  134    130       CENTRAL               D14           211
+## 3           1197  237    230     NORTHEAST                D9          7647
+## 4           4153  432    430     SOUTHWEST                D6           716
+## 5           4523  641    640 NORTH CENTRAL               D11          5600
+## 6           2167  346    340     SOUTHEAST                D7          4600
+##    STREET_NAME STREET_DIRECTION STREET_TYPE
+## 1       STREET         street_g    street_t
+## 2        Ervay                N         St.
+## 3     Ferguson             NULL         Rd.
+## 4 bimebella dr             NULL         Ln.
+## 5          LBJ             NULL       Frwy.
+## 6    Malcolm X                S       Blvd.
+##   LOCATION_FULL_STREET_ADDRESS_OR_INTERSECTION LOCATION_CITY LOCATION_STATE
+## 1                               Street Address          City          State
+## 2                               211 N ERVAY ST        Dallas             TX
+## 3                             7647 FERGUSON RD        Dallas             TX
+## 4                             716 BIMEBELLA LN        Dallas             TX
+## 5                               5600 L B J FWY        Dallas             TX
+## 6                        4600 S MALCOLM X BLVD        Dallas             TX
+##   LOCATION_LATITUDE LOCATION_LONGITUDE INCIDENT_REASON REASON_FOR_FORCE
+## 1          Latitude          Longitude      SERVICE_TY       UOF_REASON
+## 2         32.782205         -96.797461          Arrest           Arrest
+## 3         32.798978         -96.717493          Arrest           Arrest
+## 4          32.73971          -96.92519          Arrest           Arrest
+## 5                                               Arrest           Arrest
+## 6                                               Arrest           Arrest
+##     TYPE_OF_FORCE_USED1 TYPE_OF_FORCE_USED2 TYPE_OF_FORCE_USED3
+## 1            ForceType1          ForceType2          ForceType3
+## 2 Hand/Arm/Elbow Strike                                        
+## 3           Joint Locks                                        
+## 4     Take Down - Group                                        
+## 5        K-9 Deployment                                        
+## 6        Verbal Command     Take Down - Arm                    
+##   TYPE_OF_FORCE_USED4 TYPE_OF_FORCE_USED5 TYPE_OF_FORCE_USED6
+## 1          ForceType4          ForceType5          ForceType6
+## 2                                                            
+## 3                                                            
+## 4                                                            
+## 5                                                            
+## 6                                                            
+##   TYPE_OF_FORCE_USED7 TYPE_OF_FORCE_USED8 TYPE_OF_FORCE_USED9
+## 1          ForceType7          ForceType8          ForceType9
+## 2                                                            
+## 3                                                            
+## 4                                                            
+## 5                                                            
+## 6                                                            
+##   TYPE_OF_FORCE_USED10 NUMBER_EC_CYCLES FORCE_EFFECTIVE
+## 1          ForceType10       Cycles_Num      ForceEffec
+## 2                                  NULL             Yes
+## 3                                  NULL             Yes
+## 4                                  NULL             Yes
+## 5                                  NULL             Yes
+## 6                                  NULL         No, Yes
+
+### Removing the first row
+
+coe_df &lt;- coe_df[-1,]
+</code></pre></div></div>
+
+<p>###Changing the format of variables</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df$INCIDENT_DATE &lt;- as.Date(coe_df$INCIDENT_DATE, "%m/%d/%y")
+coe_df$INCIDENT_TIME &lt;- parse_date_time(coe_df$INCIDENT_TIME,  "%I:%M:%S %p")
+
+## Warning: 10 failed to parse.
+</code></pre></div></div>
+
+<h4 id="creating-two-additional-variables">Creating two additional variables.</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Creating month varible
+coe_df$month &lt;- month(coe_df$INCIDENT_DATE, label = T, abbr = T)
+
+### Creating time of day variable
+coe_df$timeofday &lt;- cut(hour(coe_df$INCIDENT_TIME),breaks = c(-Inf,6,12,4,9,23), labels = c("Night", "Morning","Afternoon","Evening", "Night"))
+</code></pre></div></div>
+
+<h3 id="1-have-the-number-of-policing-incidents-remained-constant-through-the-year">1. Have the number of policing incidents remained constant through the year?</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  group_by(month)%&gt;%
+  summarise(incident_count = n())-&gt; incidentsbyyear
+
+
+plot1 &lt;- ggplot(data = incidentsbyyear,
+                aes(x = month, y= incident_count)) + 
+  geom_bar(stat = "identity",fill = "steelblue") +
+  labs(title= "Number of incidents by month", 
+       x = "Months", 
+       y = "Number of incidents")
+
+plot1   
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>We see that number of policing incidents have been decreasing over the
+year.</p>
+
+<h3 id="2-at-what-time-of-the-day-are-the-incident-most-frequent">2. At what time of the day are the incident most frequent?</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  group_by(timeofday)%&gt;%
+  summarise(incident_count = n())-&gt; incidentsbytimeofday
+
+
+plot2 &lt;- ggplot(data = incidentsbytimeofday,
+                aes(x = timeofday, y= incident_count)) + 
+  geom_bar(stat = "identity",fill = "steelblue") +
+  labs(title= "Number of incidents by Time of day", 
+       x = "Time of day", 
+       y = "Number of incidents")
+
+plot2
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>We see that majority of the incidents occur at night, that is between 9
+PM to 6 AM in the morning.</p>
+
+<h3 id="3-does-the-distribution-of-the-policing-incidents-and-the-gender-and-race-of-the-officer-have-any-relation">3. Does the distribution of the policing incidents and the gender and race of the officer have any relation.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  group_by(OFFICER_GENDER, OFFICER_RACE)%&gt;%
+  summarise(incident_count = n())-&gt; incidentsbyofficer
+
+## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
+## `.groups` argument.
+
+plot3 &lt;- ggplot(data = incidentsbyofficer,
+                aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_GENDER )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Number of incidents by Race of the officer", 
+       x = "Race of the officer", 
+       y = "Number of incidents")
+
+plot3
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-7-1.png" alt="" /></p>
+
+<p>We see that most of the officers involved in the reported incidence are
+White. Also we find that male officer are in majority compared to female
+officers. We also have Hispanic and Black officer with a significant
+number of reported incidences.</p>
+
+<h3 id="4-does-the-gender-of-the-officer-and-the-time-of-day-occurence-have-any-relation">4. Does the gender of the officer and the time of day occurence have any relation.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(timeofday!="NA")%&gt;%
+  group_by(OFFICER_GENDER, timeofday)%&gt;%
+  summarise(incident_count = n())-&gt; incidentsbyoffday
+
+## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the
+## `.groups` argument.
+
+plot4 &lt;- ggplot(data = incidentsbyoffday,
+                aes(x = timeofday, y= incident_count, fill = OFFICER_GENDER )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Number of incidents by Time of day", 
+       x = "Time of day", 
+       y = "Number of incidents")
+
+plot4
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>We see that both the gender the reported incidents are majorly in the
+night.</p>
+
+<h3 id="5-does-the-race-of-the-officer-has-any-relationship-of-getting-injuried-during-the-policing-incident">5. Does the Race of the officer has any relationship of getting injuried during the policing incident</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(timeofday!="NA")%&gt;%
+  group_by(OFFICER_RACE, OFFICER_INJURY)%&gt;%
+  summarise(incident_count = n())-&gt; incidentsbyinjury
+
+## `summarise()` has grouped output by 'OFFICER_RACE'. You can override using the
+## `.groups` argument.
+
+plot5 &lt;- ggplot(data = incidentsbyinjury,
+                aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_INJURY )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Injury to officer and their Race", 
+       x = "Race of the officer", 
+       y = "Number of incidents")
+
+plot5
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-9-1.png" alt="" /></p>
+
+<p>We see that majorly officers and not been injured in the incident. Among
+those who were injuried we see that most of them are White.</p>
+
+<p>Also a small percentage of Hispanic and Black has been reported to have
+injuried.</p>
+
+<h3 id="6-does-the-race-of-subject-and-the-time-of-day-of-the-incident-has-any-relationship">6. Does the race of subject and the time of day of the incident has any relationship.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(timeofday!="NA",SUBJECT_RACE!="NULL" )%&gt;%
+  group_by(SUBJECT_RACE, timeofday)%&gt;%
+  summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbysubday
+
+## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+## `.groups` argument.
+
+plot6 &lt;- ggplot(data = incidentsbysubday,
+                aes(x = SUBJECT_RACE, y= incident_count, fill = timeofday )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Race of the subject and time of day", 
+       x = "Race of subject", 
+       y = "Number of incidents")+
+  coord_flip()
+
+plot6
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>We see that Black subject are mostly in incidences reported in the night
+or in the evening. There are some case reported the afternoon, but very
+few in the morning.</p>
+
+<p>Both White and Hispanic are active majorly in the night or evening.</p>
+
+<p>But Hispanic are also active in the morning but White are active in the
+afternoon.</p>
+
+<h3 id="7-does-the-race-of-subject-and-the-division-of-the-reported-incident-has-any-relationship">7. Does the race of subject and the division of the reported incident has any relationship.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(SUBJECT_RACE!="NULL" )%&gt;%
+  group_by(SUBJECT_RACE, DIVISION)%&gt;%
+  summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbydivision
+
+## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+## `.groups` argument.
+
+plot7 &lt;- ggplot(data = incidentsbydivision,
+                aes(x = DIVISION, y= incident_count, fill = SUBJECT_RACE )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Race of the subject and Division", 
+       x = "Division", 
+       y = "Number of incidents")+
+  coord_flip()
+
+plot7
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-11-1.png" alt="" /></p>
+
+<p>In the South East, South Central, North East and Central division
+majority of the incidents have Black subjects.</p>
+
+<p>In South West, majority of the incidents involve Hispanic and Blacks.</p>
+
+<p>In South Central is mostly black subjects. However in North Central and
+Central there are a significant number of white subjects.</p>
+
+<h3 id="8-does-the-race-of-subject-and-the-arrest-has-any-relationship">8. Does the race of subject and the arrest has any relationship</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(SUBJECT_RACE!="NULL" )%&gt;%
+  group_by(SUBJECT_RACE, SUBJECT_WAS_ARRESTED)%&gt;%
+  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyarrest
+
+## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+## `.groups` argument.
+
+plot8 &lt;- ggplot(data = incidentsbyarrest,
+                aes(x = SUBJECT_RACE, y= incident_count, fill = SUBJECT_WAS_ARRESTED )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Race of the subject and Arrest Status", 
+       x = "Race of the subject", 
+       y = "Number of incidents")
+
+plot8
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-12-1.png" alt="" /></p>
+
+<p>We see that most the subject irrespective of the race have been
+arrested.</p>
+
+<h3 id="9-does-the-race-of-officer-and-the-race-of-the-subject-has-any-evident-relationship">9. Does the race of officer and the race of the subject has any evident relationship.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;%
+  group_by(SUBJECT_RACE, OFFICER_RACE)%&gt;%
+  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyrace
+
+## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+## `.groups` argument.
+
+plot9 &lt;- ggplot(data = incidentsbyrace,
+                aes(x = OFFICER_RACE, y= incident_count, fill = SUBJECT_RACE )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Race of subject vs Race of officer", 
+       x = "Race of the Officer", 
+       y = "Number of incidents")
+
+plot9
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-13-1.png" alt="" /></p>
+
+<p>Irrespective of the race of the officer, most of the incidents involve
+black subject followed by Hispanic and White.</p>
+
+<h3 id="10-does-the-race-of-subject-and-the-uof-has-any-relationship">10. Does the race of subject and the UOF has any relationship.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coe_df %&gt;%
+  filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;%
+  group_by(SUBJECT_RACE, REASON_FOR_FORCE)%&gt;%
+  summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyUOF
+
+## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the
+## `.groups` argument.
+
+plot10 &lt;- ggplot(data = incidentsbyUOF,
+                aes(x = SUBJECT_RACE, y= incident_count, fill = REASON_FOR_FORCE )) + 
+  geom_bar(stat = "identity") +
+  labs(title= "Race of subject and reason for use of force", 
+       x = "Race of the Subject", 
+       y = "Number of incidents")
+
+plot10
+</code></pre></div></div>
+
+<p><img src="RCode_V2_files/figure-markdown_strict/unnamed-chunk-14-1.png" alt="" /></p>
+
+<p>We see that across race of the subject, the chief reason for the use of
+force is Arrest, Active Aggression and Danger to self or others.</p>
+
+<h3 id="observations">Observations</h3>
+
+<ul>
+  <li>
+    <p>We see that the number of of policing incidents have been steadily
+decreasing over the year. They reached a peak in March and they went
+on decreasing to a reach a minimum in December.</p>
+  </li>
+  <li>
+    <p>On looking at the time of reported incidents we see that most of
+them are reported in the night that is from 9.00 PM to 6.00 AM in
+the morning.</p>
+  </li>
+  <li>
+    <p>From the distribution of the incidents with respect to gender and
+race of the officer we see that most of the male officer are in
+majority.</p>
+  </li>
+  <li>
+    <p>Irrespective of the gender, White officer has most of the incident
+reported followed by Hispanic and Black officers.</p>
+  </li>
+  <li>
+    <p>Across gender, most of the incidents have been reported at night.</p>
+  </li>
+  <li>
+    <p>Looking at the injured officers, we see that in most of the
+incidents the officers are not injured. However, among the injured
+officers, White officer have been injured the most.</p>
+  </li>
+  <li>
+    <p>Looking at the distribution of incidents with regard to the race of
+the subject and the time of day, we see that Black subjects are
+mostly in incidences reported in the night or in the evening. There
+are some case reported the afternoon, but very few in the morning.
+Both White and Hispanic are active majorly in the night or evening.
+But Hispanic are also active in the morning but White are active in
+the afternoon.</p>
+  </li>
+  <li>
+    <p>On analyzing the incidents by Division and race of the subject, we
+find that in the Southeast, South Central, North East and Central
+division majority of the incidents have Black subjects. In South
+West, majority of the incidents involve Hispanic and Blacks. In
+South Central is mostly black subjects. However in North Central and
+Central there are a significant number of white subjects.</p>
+  </li>
+  <li>
+    <p>Also in the reported incidents, the subjects have been majorly
+arrested irrespective of the the race. Also irrespective of the race
+of the officer, the subjects involved in the incident are black.</p>
+  </li>
+  <li>
+    <p>Looking at the reason for the use of force we find that Arrest,
+Active Aggression and Danger to self or others are majorly citied
+reasons across the race of the subjects.</p>
+  </li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Libraries needed library(tidyverse) ## Warning: package 'tidyverse' was built under R version 4.1.3 ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 -- ## v ggplot2 3.3.5 v purrr 0.3.4 ## v tibble 3.1.5 v dplyr 1.0.7 ## v tidyr 1.1.4 v stringr 1.4.0 ## v readr 2.1.2 v forcats 0.5.1 ## Warning: package 'readr' was built under R version 4.1.3 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() -- ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() library(lubridate) ## ## Attaching package: 'lubridate' ## The following objects are masked from 'package:base': ## ## date, intersect, setdiff, union Reading the data coe_df &lt;- read.csv("37-00049_UOF-P_2016_prepped.csv", header = T, stringsAsFactors = F) head(coe_df) ## INCIDENT_DATE INCIDENT_TIME UOF_NUMBER OFFICER_ID OFFICER_GENDER ## 1 OCCURRED_D OCCURRED_T UOFNum CURRENT_BA OffSex ## 2 9/3/16 4:14:00 AM 37702 10810 Male ## 3 3/22/16 11:00:00 PM 33413 7706 Male ## 4 5/22/16 1:29:00 PM 34567 11014 Male ## 5 1/10/16 8:55:00 PM 31460 6692 Male ## 6 11/8/16 2:30:00 AM 37879, 37898 9844 Male ## OFFICER_RACE OFFICER_HIRE_DATE OFFICER_YEARS_ON_FORCE OFFICER_INJURY ## 1 OffRace HIRE_DT INCIDENT_DATE_LESS_ OFF_INJURE ## 2 Black 5/7/14 2 No ## 3 White 1/8/99 17 Yes ## 4 Black 5/20/15 1 No ## 5 Black 7/29/91 24 No ## 6 White 10/4/09 7 No ## OFFICER_INJURY_TYPE OFFICER_HOSPITALIZATION SUBJECT_ID SUBJECT_RACE ## 1 OFF_INJURE_DESC OFF_HOSPIT CitNum CitRace ## 2 No injuries noted or visible No 46424 Black ## 3 Sprain/Strain Yes 44324 Hispanic ## 4 No injuries noted or visible No 45126 Hispanic ## 5 No injuries noted or visible No 43150 Hispanic ## 6 No injuries noted or visible No 47307 Black ## SUBJECT_GENDER SUBJECT_INJURY SUBJECT_INJURY_TYPE ## 1 CitSex CIT_INJURE SUBJ_INJURE_DESC ## 2 Female Yes Non-Visible Injury/Pain ## 3 Male No No injuries noted or visible ## 4 Male No No injuries noted or visible ## 5 Male Yes Laceration/Cut ## 6 Male No No injuries noted or visible ## SUBJECT_WAS_ARRESTED SUBJECT_DESCRIPTION SUBJECT_OFFENSE ## 1 CIT_ARREST CIT_INFL_A CitChargeT ## 2 Yes Mentally unstable APOWW ## 3 Yes Mentally unstable APOWW ## 4 Yes Unknown APOWW ## 5 Yes FD-Unknown if Armed Evading Arrest ## 6 Yes Unknown Other Misdemeanor Arrest ## REPORTING_AREA BEAT SECTOR DIVISION LOCATION_DISTRICT STREET_NUMBER ## 1 RA BEAT SECTOR DIVISION DIST_NAME STREET_N ## 2 2062 134 130 CENTRAL D14 211 ## 3 1197 237 230 NORTHEAST D9 7647 ## 4 4153 432 430 SOUTHWEST D6 716 ## 5 4523 641 640 NORTH CENTRAL D11 5600 ## 6 2167 346 340 SOUTHEAST D7 4600 ## STREET_NAME STREET_DIRECTION STREET_TYPE ## 1 STREET street_g street_t ## 2 Ervay N St. ## 3 Ferguson NULL Rd. ## 4 bimebella dr NULL Ln. ## 5 LBJ NULL Frwy. ## 6 Malcolm X S Blvd. ## LOCATION_FULL_STREET_ADDRESS_OR_INTERSECTION LOCATION_CITY LOCATION_STATE ## 1 Street Address City State ## 2 211 N ERVAY ST Dallas TX ## 3 7647 FERGUSON RD Dallas TX ## 4 716 BIMEBELLA LN Dallas TX ## 5 5600 L B J FWY Dallas TX ## 6 4600 S MALCOLM X BLVD Dallas TX ## LOCATION_LATITUDE LOCATION_LONGITUDE INCIDENT_REASON REASON_FOR_FORCE ## 1 Latitude Longitude SERVICE_TY UOF_REASON ## 2 32.782205 -96.797461 Arrest Arrest ## 3 32.798978 -96.717493 Arrest Arrest ## 4 32.73971 -96.92519 Arrest Arrest ## 5 Arrest Arrest ## 6 Arrest Arrest ## TYPE_OF_FORCE_USED1 TYPE_OF_FORCE_USED2 TYPE_OF_FORCE_USED3 ## 1 ForceType1 ForceType2 ForceType3 ## 2 Hand/Arm/Elbow Strike ## 3 Joint Locks ## 4 Take Down - Group ## 5 K-9 Deployment ## 6 Verbal Command Take Down - Arm ## TYPE_OF_FORCE_USED4 TYPE_OF_FORCE_USED5 TYPE_OF_FORCE_USED6 ## 1 ForceType4 ForceType5 ForceType6 ## 2 ## 3 ## 4 ## 5 ## 6 ## TYPE_OF_FORCE_USED7 TYPE_OF_FORCE_USED8 TYPE_OF_FORCE_USED9 ## 1 ForceType7 ForceType8 ForceType9 ## 2 ## 3 ## 4 ## 5 ## 6 ## TYPE_OF_FORCE_USED10 NUMBER_EC_CYCLES FORCE_EFFECTIVE ## 1 ForceType10 Cycles_Num ForceEffec ## 2 NULL Yes ## 3 NULL Yes ## 4 NULL Yes ## 5 NULL Yes ## 6 NULL No, Yes ### Removing the first row coe_df &lt;- coe_df[-1,] ###Changing the format of variables coe_df$INCIDENT_DATE &lt;- as.Date(coe_df$INCIDENT_DATE, "%m/%d/%y") coe_df$INCIDENT_TIME &lt;- parse_date_time(coe_df$INCIDENT_TIME, "%I:%M:%S %p") ## Warning: 10 failed to parse. Creating two additional variables. ### Creating month varible coe_df$month &lt;- month(coe_df$INCIDENT_DATE, label = T, abbr = T) ### Creating time of day variable coe_df$timeofday &lt;- cut(hour(coe_df$INCIDENT_TIME),breaks = c(-Inf,6,12,4,9,23), labels = c("Night", "Morning","Afternoon","Evening", "Night")) 1. Have the number of policing incidents remained constant through the year? coe_df %&gt;% group_by(month)%&gt;% summarise(incident_count = n())-&gt; incidentsbyyear plot1 &lt;- ggplot(data = incidentsbyyear, aes(x = month, y= incident_count)) + geom_bar(stat = "identity",fill = "steelblue") + labs(title= "Number of incidents by month", x = "Months", y = "Number of incidents") plot1 We see that number of policing incidents have been decreasing over the year. 2. At what time of the day are the incident most frequent? coe_df %&gt;% group_by(timeofday)%&gt;% summarise(incident_count = n())-&gt; incidentsbytimeofday plot2 &lt;- ggplot(data = incidentsbytimeofday, aes(x = timeofday, y= incident_count)) + geom_bar(stat = "identity",fill = "steelblue") + labs(title= "Number of incidents by Time of day", x = "Time of day", y = "Number of incidents") plot2 We see that majority of the incidents occur at night, that is between 9 PM to 6 AM in the morning. 3. Does the distribution of the policing incidents and the gender and race of the officer have any relation. coe_df %&gt;% group_by(OFFICER_GENDER, OFFICER_RACE)%&gt;% summarise(incident_count = n())-&gt; incidentsbyofficer ## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the ## `.groups` argument. plot3 &lt;- ggplot(data = incidentsbyofficer, aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_GENDER )) + geom_bar(stat = "identity") + labs(title= "Number of incidents by Race of the officer", x = "Race of the officer", y = "Number of incidents") plot3 We see that most of the officers involved in the reported incidence are White. Also we find that male officer are in majority compared to female officers. We also have Hispanic and Black officer with a significant number of reported incidences. 4. Does the gender of the officer and the time of day occurence have any relation. coe_df %&gt;% filter(timeofday!="NA")%&gt;% group_by(OFFICER_GENDER, timeofday)%&gt;% summarise(incident_count = n())-&gt; incidentsbyoffday ## `summarise()` has grouped output by 'OFFICER_GENDER'. You can override using the ## `.groups` argument. plot4 &lt;- ggplot(data = incidentsbyoffday, aes(x = timeofday, y= incident_count, fill = OFFICER_GENDER )) + geom_bar(stat = "identity") + labs(title= "Number of incidents by Time of day", x = "Time of day", y = "Number of incidents") plot4 We see that both the gender the reported incidents are majorly in the night. 5. Does the Race of the officer has any relationship of getting injuried during the policing incident coe_df %&gt;% filter(timeofday!="NA")%&gt;% group_by(OFFICER_RACE, OFFICER_INJURY)%&gt;% summarise(incident_count = n())-&gt; incidentsbyinjury ## `summarise()` has grouped output by 'OFFICER_RACE'. You can override using the ## `.groups` argument. plot5 &lt;- ggplot(data = incidentsbyinjury, aes(x = OFFICER_RACE, y= incident_count, fill = OFFICER_INJURY )) + geom_bar(stat = "identity") + labs(title= "Injury to officer and their Race", x = "Race of the officer", y = "Number of incidents") plot5 We see that majorly officers and not been injured in the incident. Among those who were injuried we see that most of them are White. Also a small percentage of Hispanic and Black has been reported to have injuried. 6. Does the race of subject and the time of day of the incident has any relationship. coe_df %&gt;% filter(timeofday!="NA",SUBJECT_RACE!="NULL" )%&gt;% group_by(SUBJECT_RACE, timeofday)%&gt;% summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbysubday ## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the ## `.groups` argument. plot6 &lt;- ggplot(data = incidentsbysubday, aes(x = SUBJECT_RACE, y= incident_count, fill = timeofday )) + geom_bar(stat = "identity") + labs(title= "Race of the subject and time of day", x = "Race of subject", y = "Number of incidents")+ coord_flip() plot6 We see that Black subject are mostly in incidences reported in the night or in the evening. There are some case reported the afternoon, but very few in the morning. Both White and Hispanic are active majorly in the night or evening. But Hispanic are also active in the morning but White are active in the afternoon. 7. Does the race of subject and the division of the reported incident has any relationship. coe_df %&gt;% filter(SUBJECT_RACE!="NULL" )%&gt;% group_by(SUBJECT_RACE, DIVISION)%&gt;% summarise(incident_count = n())%&gt;%filter(incident_count&gt;20)-&gt; incidentsbydivision ## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the ## `.groups` argument. plot7 &lt;- ggplot(data = incidentsbydivision, aes(x = DIVISION, y= incident_count, fill = SUBJECT_RACE )) + geom_bar(stat = "identity") + labs(title= "Race of the subject and Division", x = "Division", y = "Number of incidents")+ coord_flip() plot7 In the South East, South Central, North East and Central division majority of the incidents have Black subjects. In South West, majority of the incidents involve Hispanic and Blacks. In South Central is mostly black subjects. However in North Central and Central there are a significant number of white subjects. 8. Does the race of subject and the arrest has any relationship coe_df %&gt;% filter(SUBJECT_RACE!="NULL" )%&gt;% group_by(SUBJECT_RACE, SUBJECT_WAS_ARRESTED)%&gt;% summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyarrest ## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the ## `.groups` argument. plot8 &lt;- ggplot(data = incidentsbyarrest, aes(x = SUBJECT_RACE, y= incident_count, fill = SUBJECT_WAS_ARRESTED )) + geom_bar(stat = "identity") + labs(title= "Race of the subject and Arrest Status", x = "Race of the subject", y = "Number of incidents") plot8 We see that most the subject irrespective of the race have been arrested. 9. Does the race of officer and the race of the subject has any evident relationship. coe_df %&gt;% filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;% group_by(SUBJECT_RACE, OFFICER_RACE)%&gt;% summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyrace ## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the ## `.groups` argument. plot9 &lt;- ggplot(data = incidentsbyrace, aes(x = OFFICER_RACE, y= incident_count, fill = SUBJECT_RACE )) + geom_bar(stat = "identity") + labs(title= "Race of subject vs Race of officer", x = "Race of the Officer", y = "Number of incidents") plot9 Irrespective of the race of the officer, most of the incidents involve black subject followed by Hispanic and White. 10. Does the race of subject and the UOF has any relationship. coe_df %&gt;% filter(SUBJECT_RACE!="NULL", OFFICER_RACE!="NULL")%&gt;% group_by(SUBJECT_RACE, REASON_FOR_FORCE)%&gt;% summarise(incident_count = n())%&gt;%filter(incident_count&gt;10)-&gt; incidentsbyUOF ## `summarise()` has grouped output by 'SUBJECT_RACE'. You can override using the ## `.groups` argument. plot10 &lt;- ggplot(data = incidentsbyUOF, aes(x = SUBJECT_RACE, y= incident_count, fill = REASON_FOR_FORCE )) + geom_bar(stat = "identity") + labs(title= "Race of subject and reason for use of force", x = "Race of the Subject", y = "Number of incidents") plot10 We see that across race of the subject, the chief reason for the use of force is Arrest, Active Aggression and Danger to self or others. Observations We see that the number of of policing incidents have been steadily decreasing over the year. They reached a peak in March and they went on decreasing to a reach a minimum in December. On looking at the time of reported incidents we see that most of them are reported in the night that is from 9.00 PM to 6.00 AM in the morning. From the distribution of the incidents with respect to gender and race of the officer we see that most of the male officer are in majority. Irrespective of the gender, White officer has most of the incident reported followed by Hispanic and Black officers. Across gender, most of the incidents have been reported at night. Looking at the injured officers, we see that in most of the incidents the officers are not injured. However, among the injured officers, White officer have been injured the most. Looking at the distribution of incidents with regard to the race of the subject and the time of day, we see that Black subjects are mostly in incidences reported in the night or in the evening. There are some case reported the afternoon, but very few in the morning. Both White and Hispanic are active majorly in the night or evening. But Hispanic are also active in the morning but White are active in the afternoon. On analyzing the incidents by Division and race of the subject, we find that in the Southeast, South Central, North East and Central division majority of the incidents have Black subjects. In South West, majority of the incidents involve Hispanic and Blacks. In South Central is mostly black subjects. However in North Central and Central there are a significant number of white subjects. Also in the reported incidents, the subjects have been majorly arrested irrespective of the the race. Also irrespective of the race of the officer, the subjects involved in the incident are black. Looking at the reason for the use of force we find that Arrest, Active Aggression and Danger to self or others are majorly citied reasons across the race of the subjects.]]></summary></entry><entry><title type="html">Fastpages Notebook Blog Post</title><link href="https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test.html" rel="alternate" type="text/html" title="Fastpages Notebook Blog Post" /><published>2020-02-20T00:00:00-06:00</published><updated>2020-02-20T00:00:00-06:00</updated><id>https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test</id><content type="html" xml:base="https://vicky-crasto.github.io/Learn-Project-Language/jupyter/2020/02/20/test.html"><![CDATA[<!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
