@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.3 Working with pdf files | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="1.3 Working with pdf files" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post explains how to read,edit and append pdf files in python" />
+<meta property="og:description" content="The post explains how to read,edit and append pdf files in python" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/2022/06/29/1-3-Working-with-pdf-files.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/2022/06/29/1-3-Working-with-pdf-files.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-29T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.3 Working with pdf files" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-06-29T00:00:00-05:00","datePublished":"2022-06-29T00:00:00-05:00","description":"The post explains how to read,edit and append pdf files in python","headline":"1.3 Working with pdf files","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/2022/06/29/1-3-Working-with-pdf-files.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/2022/06/29/1-3-Working-with-pdf-files.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">1.3 Working with pdf files</h1><p class="page-description">The post explains how to read,edit and append pdf files in python</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-29T00:00:00-05:00" itemprop="datePublished">
+        Jun 29, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Installing-the-library-PyPDF2">Installing the library PyPDF2 </a></li>
+<li class="toc-entry toc-h2"><a href="#Working-with-PyPDF2">Working with PyPDF2 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Reading-a-pdf">Reading a pdf </a></li>
+<li class="toc-entry toc-h3"><a href="#Extracting-text-from-a-page">Extracting text from a page </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Adding-pages-to-pdf-file">Adding pages to pdf file </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-06-29-1-3-Working-with-pdf-files.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing-the-library-PyPDF2">
+<a class="anchor" href="#Installing-the-library-PyPDF2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing the library PyPDF2<a class="anchor-link" href="#Installing-the-library-PyPDF2"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">PyPDF2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting PyPDF2
+  Downloading PyPDF2-2.4.0-py3-none-any.whl (197 kB)
+Requirement already satisfied: typing-extensions in c:\users\vicky.crasto\anaconda3\lib\site-packages (from PyPDF2) (3.10.0.2)
+Installing collected packages: PyPDF2
+Successfully installed PyPDF2-2.4.0
+Note: you may need to restart the kernel to use updated packages.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">PyPDF2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Working-with-PyPDF2">
+<a class="anchor" href="#Working-with-PyPDF2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with PyPDF2<a class="anchor-link" href="#Working-with-PyPDF2"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reading-a-pdf">
+<a class="anchor" href="#Reading-a-pdf" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading a pdf<a class="anchor-link" href="#Reading-a-pdf"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data_files/US_Declaration.pdf"</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note : the mode is 'rb' - read the file as a binary</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Creating a pdf reader instance</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf_reader</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfFileReader</span><span class="p">(</span><span class="n">pdf1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Number of pages in the pdf</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf_reader</span><span class="o">.</span><span class="n">numPages</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Extracting-text-from-a-page">
+<a class="anchor" href="#Extracting-text-from-a-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extracting text from a page<a class="anchor-link" href="#Extracting-text-from-a-page"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_one</span> <span class="o">=</span> <span class="n">pdf_reader</span><span class="o">.</span><span class="n">getPage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">page_one_text</span> <span class="o">=</span> <span class="n">page_one</span><span class="o">.</span><span class="n">extractText</span><span class="p">()</span>
+<span class="n">page_one_text</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>" Declaration of Independence\nIN CONGRESS, July 4, 1776.  \nThe unanimous Declaration of the thirteen united States of America, \nWhen in the Course of human events, it becomes necessary for one people to dissolve the\npolitical bands which have connected them with another, and to assume among the powers of the\nearth, the separate and equal station to which the Laws of Nature and of Nature's God entitle\nthem, a decent respect to the opinions of mankind requires that they should declare the causes\nwhich impel them to the separation. \nWe hold these truths to be self-evident, that all men are created equal, that they are endowed by\ntheir Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit\nof Happiness.— \x14That to secure these rights, Governments are instituted among Men, deriving\ntheir just powers from the consent of the governed,—  \x14That whenever any Form of Government\nbecomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to\ninstitute new Government, laying its foundation on such principles and organizing its powers in\nsuch form, as to them shall seem most likely to effect their Safety and Happiness. Prudence,\nindeed, will dictate that Governments long established should not be changed for light and\ntransient causes; and accordingly all experience hath shewn, that mankind are more disposed to\nsuffer, while evils are sufferable, than to right themselves by abolishing the forms to which they\nare accustomed. But when a long train of abuses and usurpations, pursuing invariably the same\nObject evinces a design to reduce them under absolute Despotism, it is their right, it is their duty,\nto throw off such Government, and to provide new Guards for their future security.— \x14Such has\nbeen the patient sufferance of these Colonies; and such is now the necessity which constrains\nthem to alter their former Systems of Government. The history of the present King of Great\nBritain is a history of repeated injuries and usurpations, all having in direct object the\nestablishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a\ncandid world. \nHe has refused his Assent to Laws, the most wholesome and necessary for the\npublic good.\nHe has forbidden his Governors to pass Laws of immediate and pressing\nimportance, unless suspended in their operation till his Assent should be obtained;\nand when so suspended, he has utterly neglected to attend to them.\nHe has refused to pass other Laws for the accommodation of large districts of\npeople, unless those people would relinquish the right of Representation in the\nLegislature, a right inestimable to them and formidable to tyrants only. \nHe has called together legislative bodies at places unusual, uncomfortable, and distant\nfrom the depository of their public Records, for the sole purpose of fatiguing them into\ncompliance with his measures."</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Adding-pages-to-pdf-file">
+<a class="anchor" href="#Adding-pages-to-pdf-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding pages to pdf file<a class="anchor-link" href="#Adding-pages-to-pdf-file"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Open the pdf and extracting the first page</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data_files/US_Declaration.pdf"</span><span class="p">,</span><span class="s1">'rb'</span><span class="p">)</span>
+<span class="n">pdf_reader</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfFileReader</span><span class="p">(</span><span class="n">pdf2</span><span class="p">)</span>
+<span class="n">first_page</span> <span class="o">=</span> <span class="n">pdf_reader</span><span class="o">.</span><span class="n">getPage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Creating a writer object</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf_writer</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfFileWriter</span><span class="p">()</span>
+<span class="n">pdf_writer</span><span class="o">.</span><span class="n">addPage</span><span class="p">(</span><span class="n">first_page</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf_output</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"New_doc.pdf"</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdf_output</span><span class="p">)</span>
+<span class="n">pdf_output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">pdf2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Checking the new doc which is created</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf3</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"New_doc.pdf"</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span>
+<span class="n">pdf_reader</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfFileReader</span><span class="p">(</span><span class="n">pdf3</span><span class="p">)</span>
+<span class="n">pdf_reader</span><span class="o">.</span><span class="n">numPages</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pdf3</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/pypdf2/pdf/2022/06/29/1-3-Working-with-pdf-files.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
