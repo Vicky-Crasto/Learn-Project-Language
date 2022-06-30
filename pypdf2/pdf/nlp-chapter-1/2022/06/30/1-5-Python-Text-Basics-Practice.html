@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.5 Text Basics - Practice exercises | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="1.5 Text Basics - Practice exercises" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post contains additional practice exercises on the topics learnt in chapter 1" />
+<meta property="og:description" content="The post contains additional practice exercises on the topics learnt in chapter 1" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/nlp-chapter-1/2022/06/30/1-5-Python-Text-Basics-Practice.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/nlp-chapter-1/2022/06/30/1-5-Python-Text-Basics-Practice.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-30T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.5 Text Basics - Practice exercises" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-06-30T00:00:00-05:00","datePublished":"2022-06-30T00:00:00-05:00","description":"The post contains additional practice exercises on the topics learnt in chapter 1","headline":"1.5 Text Basics - Practice exercises","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/nlp-chapter-1/2022/06/30/1-5-Python-Text-Basics-Practice.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/pypdf2/pdf/nlp-chapter-1/2022/06/30/1-5-Python-Text-Basics-Practice.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">1.5 Text Basics - Practice exercises</h1><p class="page-description">The post contains additional practice exercises on the topics learnt in chapter 1</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-30T00:00:00-05:00" itemprop="datePublished">
+        Jun 30, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#f-Strings">f-Strings </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1.-Print-an-f-string-that-displays-NLP-stands-for-Natural-Language-Processing-using-the-variables-provided.">1. Print an f-string that displays NLP stands for Natural Language Processing using the variables provided. </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Files">Files </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#2.-Create-a-file-in-the-current-working-directory-called-contacts.txt-by-running-the-cell-below:">2. Create a file in the current working directory called contacts.txt by running the cell below: </a></li>
+<li class="toc-entry toc-h4"><a href="#3.-Open-the-file-and-use-.read()-to-save-the-contents-of-the-file-to-a-string-called-fields.--Make-sure-the-file-is-closed-at-the-end.">3. Open the file and use .read() to save the contents of the file to a string called fields.  Make sure the file is closed at the end. </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Working-with-PDF-Files">Working with PDF Files </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#4.-Use-PyPDF2-to-open-the-file-Business_Proposal.pdf.-Extract-the-text-of-page-2.">4. Use PyPDF2 to open the file Business_Proposal.pdf. Extract the text of page 2. </a></li>
+<li class="toc-entry toc-h4"><a href="#5.-Open-the-file-contacts.txt-in-append-mode.-Add-the-text-of-page-2-from-above-to-contacts.txt.">5. Open the file contacts.txt in append mode. Add the text of page 2 from above to contacts.txt. </a></li>
+<li class="toc-entry toc-h4"><a href="#CHALLENGE:-See-if-you-can-remove-the-word-"AUTHORS:"">CHALLENGE: See if you can remove the word &quot;AUTHORS:&quot; </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Regular-Expressions">Regular Expressions </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#6.-Using-the-page_two_text-variable-created-above,-extract-any-email-addresses-that-were-contained-in-the-file-Business_Proposal.pdf.">6. Using the page_two_text variable created above, extract any email addresses that were contained in the file Business_Proposal.pdf. </a></li>
+<li class="toc-entry toc-h3"><a href="#Great-job!">Great job! </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-06-30-1-5-Python-Text-Basics-Practice.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="f-Strings">
+<a class="anchor" href="#f-Strings" aria-hidden="true"><span class="octicon octicon-link"></span></a>f-Strings<a class="anchor-link" href="#f-Strings"> </a>
+</h2>
+<h4 id="1.-Print-an-f-string-that-displays-NLP-stands-for-Natural-Language-Processing-using-the-variables-provided.">
+<a class="anchor" href="#1.-Print-an-f-string-that-displays-NLP-stands-for-Natural-Language-Processing-using-the-variables-provided." aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Print an f-string that displays <code>NLP stands for Natural Language Processing</code> using the variables provided.<a class="anchor-link" href="#1.-Print-an-f-string-that-displays-NLP-stands-for-Natural-Language-Processing-using-the-variables-provided."> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abbr</span> <span class="o">=</span> <span class="s1">'NLP'</span>
+<span class="n">full_text</span> <span class="o">=</span> <span class="s1">'Natural Language Processing'</span>
+
+<span class="c1">### Enter your code here:</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>NLP stands for Natural Language Processing
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abbr</span> <span class="o">=</span> <span class="s1">'NLP'</span>
+<span class="n">full_text</span> <span class="o">=</span> <span class="s1">'Natural Language Processing'</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">abbr</span><span class="si">}</span><span class="s1"> stands for </span><span class="si">{</span><span class="n">full_text</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>NLP stands for Natural Language Processing
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Files">
+<a class="anchor" href="#Files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Files<a class="anchor-link" href="#Files"> </a>
+</h2>
+<h4 id="2.-Create-a-file-in-the-current-working-directory-called-contacts.txt-by-running-the-cell-below:">
+<a class="anchor" href="#2.-Create-a-file-in-the-current-working-directory-called-contacts.txt-by-running-the-cell-below:" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Create a file in the current working directory called <code>contacts.txt</code> by running the cell below:<a class="anchor-link" href="#2.-Create-a-file-in-the-current-working-directory-called-contacts.txt-by-running-the-cell-below:"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> contacts.txt
+<span class="n">First_Name</span> <span class="n">Last_Name</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">Email</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Overwriting contacts.txt
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> contacts.txt
+<span class="n">First_Name</span> <span class="n">Last_Name</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">Email</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Overwriting contacts.txt
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="3.-Open-the-file-and-use-.read()-to-save-the-contents-of-the-file-to-a-string-called-fields.--Make-sure-the-file-is-closed-at-the-end.">
+<a class="anchor" href="#3.-Open-the-file-and-use-.read()-to-save-the-contents-of-the-file-to-a-string-called-fields.--Make-sure-the-file-is-closed-at-the-end." aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Open the file and use .read() to save the contents of the file to a string called <code>fields</code>.  Make sure the file is closed at the end.<a class="anchor-link" href="#3.-Open-the-file-and-use-.read()-to-save-the-contents-of-the-file-to-a-string-called-fields.--Make-sure-the-file-is-closed-at-the-end."> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>    
+<span class="c1"># Run fields to see the contents of contacts.txt:</span>
+<span class="n">fields</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'First_Name Last_Name, Title, Extension, Email'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"contacts.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">text</span><span class="p">:</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    
+
+<span class="n">fields</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'First_Name Last_Name, Title, Extension, Email\n'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Working-with-PDF-Files">
+<a class="anchor" href="#Working-with-PDF-Files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with PDF Files<a class="anchor-link" href="#Working-with-PDF-Files"> </a>
+</h2>
+<h4 id="4.-Use-PyPDF2-to-open-the-file-Business_Proposal.pdf.-Extract-the-text-of-page-2.">
+<a class="anchor" href="#4.-Use-PyPDF2-to-open-the-file-Business_Proposal.pdf.-Extract-the-text-of-page-2." aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Use PyPDF2 to open the file <code>Business_Proposal.pdf</code>. Extract the text of page 2.<a class="anchor-link" href="#4.-Use-PyPDF2-to-open-the-file-Business_Proposal.pdf.-Extract-the-text-of-page-2."> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Open the file as a binary object</span>
+
+
+<span class="c1"># Use PyPDF2 to read the text of the file</span>
+
+
+
+<span class="c1"># Get the text from page 2 (CHALLENGE: Do this in one step!)</span>
+<span class="n">page_two_text</span> <span class="o">=</span> 
+
+
+
+<span class="c1"># Close the file</span>
+
+
+<span class="c1"># Print the contents of page_two_text</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">page_two_text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>AUTHORS:
+ 
+Amy Baker, Finance Chair, x345, abaker@ourcompany.com
+ 
+Chris Donaldson, Accounting Dir., x621, cdonaldson@ourcompany.com
+ 
+Erin Freeman, Sr. VP, x879, efreeman@ourcompany.com
+ 
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">PyPDF2</span>
+
+<span class="c1"># Open the file as a binary object</span>
+<span class="n">pdf1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data_files/Business_Proposal.pdf"</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span>
+
+<span class="c1"># Use PyPDF2 to read the text of the file</span>
+<span class="n">pdf_reader</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfFileReader</span><span class="p">(</span><span class="n">pdf1</span><span class="p">)</span>
+
+
+<span class="c1"># Get the text from page 2 (CHALLENGE: Do this in one step!)</span>
+<span class="n">page_two_text</span> <span class="o">=</span> <span class="n">pdf_reader</span><span class="o">.</span><span class="n">getPage</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">extractText</span><span class="p">()</span>
+
+
+
+<span class="c1"># Close the file</span>
+<span class="n">pdf1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Print the contents of page_two_text</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">page_two_text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>AUTHORS:
+ 
+
+Amy Baker, Finance Chair, x345, abaker@ourcompany.com
+  
+
+Chris Donaldson, Accounting Dir., x621, cdonaldson@ourcompany.com
+  
+
+Erin Freeman, Sr. VP, x879, efreeman@ourcompany.com
+  
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="5.-Open-the-file-contacts.txt-in-append-mode.-Add-the-text-of-page-2-from-above-to-contacts.txt.">
+<a class="anchor" href="#5.-Open-the-file-contacts.txt-in-append-mode.-Add-the-text-of-page-2-from-above-to-contacts.txt." aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Open the file <code>contacts.txt</code> in append mode. Add the text of page 2 from above to <code>contacts.txt</code>.<a class="anchor-link" href="#5.-Open-the-file-contacts.txt-in-append-mode.-Add-the-text-of-page-2-from-above-to-contacts.txt."> </a>
+</h4>
+<h4 id='CHALLENGE:-See-if-you-can-remove-the-word-"AUTHORS:"'>
+<a class="anchor" href="#CHALLENGE:-See-if-you-can-remove-the-word-" aria-hidden="true" authors:=""><span class="octicon octicon-link"></span></a>CHALLENGE: See if you can remove the word "AUTHORS:"<a class="anchor-link" href="#CHALLENGE:-See-if-you-can-remove-the-word-%22AUTHORS:%22"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>First_Name Last_Name, Title, Extension, EmailAUTHORS:
+ 
+Amy Baker, Finance Chair, x345, abaker@ourcompany.com
+ 
+Chris Donaldson, Accounting Dir., x621, cdonaldson@ourcompany.com
+ 
+Erin Freeman, Sr. VP, x879, efreeman@ourcompany.com
+ 
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">**</span><span class="n">Simple</span> <span class="n">Solution</span><span class="o">**</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>First_Name Last_Name, Title, Extension, Email
+ 
+Amy Baker, Finance Chair, x345, abaker@ourcompany.com
+ 
+Chris Donaldson, Accounting Dir., x621, cdonaldson@ourcompany.com
+ 
+Erin Freeman, Sr. VP, x879, efreeman@ourcompany.com
+ 
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Regular-Expressions">
+<a class="anchor" href="#Regular-Expressions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Regular Expressions<a class="anchor-link" href="#Regular-Expressions"> </a>
+</h2>
+<h4 id="6.-Using-the-page_two_text-variable-created-above,-extract-any-email-addresses-that-were-contained-in-the-file-Business_Proposal.pdf.">
+<a class="anchor" href="#6.-Using-the-page_two_text-variable-created-above,-extract-any-email-addresses-that-were-contained-in-the-file-Business_Proposal.pdf." aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Using the <code>page_two_text</code> variable created above, extract any email addresses that were contained in the file <code>Business_Proposal.pdf</code>.<a class="anchor-link" href="#6.-Using-the-page_two_text-variable-created-above,-extract-any-email-addresses-that-were-contained-in-the-file-Business_Proposal.pdf."> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1"># Enter your regex pattern here. This may take several tries!</span>
+<span class="n">pattern</span> <span class="o">=</span> 
+
+<span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">page_two_text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['abaker@ourcompany.com',
+ 'cdonaldson@ourcompany.com',
+ 'efreeman@ourcompany.com']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Great-job!">
+<a class="anchor" href="#Great-job!" aria-hidden="true"><span class="octicon octicon-link"></span></a>Great job!<a class="anchor-link" href="#Great-job!"> </a>
+</h3>
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/pypdf2/pdf/nlp-chapter-1/2022/06/30/1-5-Python-Text-Basics-Practice.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
