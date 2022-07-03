@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>2.1 Spacy Basics | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="2.1 Spacy Basics" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post explains the basics of Spacy library used for NLP" />
+<meta property="og:description" content="The post explains the basics of Spacy library used for NLP" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/spacy/nlp-chapter-2/2022/07/01/2-1-Spacy-Basics.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/spacy/nlp-chapter-2/2022/07/01/2-1-Spacy-Basics.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-01T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="2.1 Spacy Basics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-01T00:00:00-05:00","datePublished":"2022-07-01T00:00:00-05:00","description":"The post explains the basics of Spacy library used for NLP","headline":"2.1 Spacy Basics","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/nlp-chapter-2/2022/07/01/2-1-Spacy-Basics.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/nlp-chapter-2/2022/07/01/2-1-Spacy-Basics.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">2.1 Spacy Basics</h1><p class="page-description">The post explains the basics of Spacy library used for NLP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-01T00:00:00-05:00" itemprop="datePublished">
+        Jul 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Installation-and-setup">Installation and setup </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Downloading-spacy-vocab-library">Downloading spacy vocab library </a></li>
+<li class="toc-entry toc-h3"><a href="#Loading-Spacy">Loading Spacy </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Understanding-the-spacy-pipeline">Understanding the spacy pipeline </a></li>
+<li class="toc-entry toc-h2"><a href="#Tokenization">Tokenization </a></li>
+<li class="toc-entry toc-h2"><a href="#Part-of-Speech-Tagging(POS)">Part of Speech Tagging(POS) </a></li>
+<li class="toc-entry toc-h2"><a href="#Dependencies">Dependencies </a></li>
+<li class="toc-entry toc-h2"><a href="#Additional-Token-Attributes">Additional Token Attributes </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-01-2-1-Spacy-Basics.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installation-and-setup">
+<a class="anchor" href="#Installation-and-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation and setup<a class="anchor-link" href="#Installation-and-setup"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">spacy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Downloading-spacy-vocab-library">
+<a class="anchor" href="#Downloading-spacy-vocab-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading spacy vocab library<a class="anchor-link" href="#Downloading-spacy-vocab-library"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python -m spacy download en
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Loading-Spacy">
+<a class="anchor" href="#Loading-Spacy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loading Spacy<a class="anchor-link" href="#Loading-Spacy"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Creating a doc object and printing the different components of the token</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Create a doc object</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'Tesla is looking at buying U.S. startup for $6 million'</span><span class="p">)</span>
+
+<span class="c1">### Printing each token seperately</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>     Tesla       NOUN      nsubj
+        is        AUX        aux
+   looking       VERB       ROOT
+        at        ADP       prep
+    buying       VERB      pcomp
+      U.S.      PROPN   compound
+   startup       NOUN       dobj
+       for        ADP       prep
+         $        SYM   quantmod
+         6        NUM   compound
+   million        NUM       pobj
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Understanding-the-spacy-pipeline">
+<a class="anchor" href="#Understanding-the-spacy-pipeline" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understanding the spacy pipeline<a class="anchor-link" href="#Understanding-the-spacy-pipeline"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When we run <code>nlp</code>, our text enters a <em>processing pipeline</em> that first breaks down the text and then performs a series of operations to tag, parse and describe the data.   Image source: <a href="https://spacy.io/usage/spacy-101#pipelines">https://spacy.io/usage/spacy-101#pipelines</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://spacy.io/pipeline-fde48da9b43661abcdf62ab70a546d71.svg" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table class="_59fbd182">
+<thead>
+<tr class="_8a68569b">
+<th class="_2e8d2972">NAME</th>
+<th class="_2e8d2972">COMPONENT</th>
+<th class="_2e8d2972">CREATES</th>
+<th class="_2e8d2972">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>tokenizer</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/tokenizer"><code class="_1d7c6046">Tokenizer</code></a></td>
+<td class="_5c99da9a"><code class="_1d7c6046">Doc</code></td>
+<td class="_5c99da9a">Segment text into tokens.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>tagger</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/tagger"><code class="_1d7c6046">Tagger</code></a></td>
+<td class="_5c99da9a"><code class="_1d7c6046">Token.tag</code></td>
+<td class="_5c99da9a">Assign part-of-speech tags.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>parser</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/dependencyparser"><code class="_1d7c6046">DependencyParser</code></a></td>
+<td class="_5c99da9a">
+<code class="_1d7c6046">Token.head</code>, <code class="_1d7c6046">Token.dep</code>, <code class="_1d7c6046">Doc.sents</code>, <code class="_1d7c6046">Doc.noun_chunks</code>
+</td>
+<td class="_5c99da9a">Assign dependency labels.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>ner</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/entityrecognizer"><code class="_1d7c6046">EntityRecognizer</code></a></td>
+<td class="_5c99da9a">
+<code class="_1d7c6046">Doc.ents</code>, <code class="_1d7c6046">Token.ent_iob</code>, <code class="_1d7c6046">Token.ent_type</code>
+</td>
+<td class="_5c99da9a">Detect and label named entities.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>lemmatizer</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/lemmatizer"><code class="_1d7c6046">Lemmatizer</code></a></td>
+<td class="_5c99da9a"><code class="_1d7c6046">Token.lemma</code></td>
+<td class="_5c99da9a">Assign base forms.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>textcat</strong></td>
+<td class="_5c99da9a"><a class="_46224d00 _8609c0be caf1ba1d" href="https://spacy.io/api/textcategorizer"><code class="_1d7c6046">TextCategorizer</code></a></td>
+<td class="_5c99da9a"><code class="_1d7c6046">Doc.cats</code></td>
+<td class="_5c99da9a">Assign document labels.</td>
+</tr>
+<tr class="_8a68569b">
+<td class="_5c99da9a"><strong>custom</strong></td>
+<td class="_5c99da9a"><a class="_46224d00" href="https://spacy.io/usage/processing-pipelines#custom-components">custom components</a></td>
+<td class="_5c99da9a">
+<code class="_1d7c6046">Doc._.xxx</code>, <code class="_1d7c6046">Token._.xxx</code>, <code class="_1d7c6046">Span._.xxx</code>
+</td>
+<td class="_5c99da9a">Assign custom attributes, methods or properties.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nlp</span><span class="o">.</span><span class="n">pipeline</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[('tok2vec', &lt;spacy.pipeline.tok2vec.Tok2Vec at 0x23264bfa220&gt;),
+ ('tagger', &lt;spacy.pipeline.tagger.Tagger at 0x23264bfae80&gt;),
+ ('parser', &lt;spacy.pipeline.dep_parser.DependencyParser at 0x23264a554a0&gt;),
+ ('attribute_ruler',
+  &lt;spacy.pipeline.attributeruler.AttributeRuler at 0x23264cb5780&gt;),
+ ('lemmatizer', &lt;spacy.lang.en.lemmatizer.EnglishLemmatizer at 0x23264cc8780&gt;),
+ ('ner', &lt;spacy.pipeline.ner.EntityRecognizer at 0x23264a55350&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nlp</span><span class="o">.</span><span class="n">pipe_names</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer', 'ner']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tokenization">
+<a class="anchor" href="#Tokenization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tokenization<a class="anchor-link" href="#Tokenization"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Tokenization is breaking the raw text into small chunks. Tokenization breaks the raw text into words, sentences called tokens. These tokens help in understanding the context or developing the model for the NLP. The tokenization helps in interpreting the meaning of the text by analyzing the sequence of the words.</p>
+<p><em>Source: <a href="https://towardsdatascience.com/tokenization-for-natural-language-processing-a179a891bad4s">https://towardsdatascience.com/tokenization-for-natural-language-processing-a179a891bad4s</a></em></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s2">"Apple isn't  looking into buying startups."</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>     Apple      PROPN      nsubj
+        is        AUX        aux
+       n't       PART        neg
+                SPACE        dep
+   looking       VERB       ROOT
+      into        ADP       prep
+    buying       VERB      pcomp
+  startups       NOUN       dobj
+         .      PUNCT      punct
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Things to take note</strong></p>
+<ul>
+<li>Spacy is able to recognize the root verb and the negation, hence it has split is'nt into two tokens</li>
+<li>Spaces and peroid are assigned as tokens</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">doc2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>spacy.tokens.doc.Doc</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>doc2 is spacy object and contains information of each token in the text.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Part-of-Speech-Tagging(POS)">
+<a class="anchor" href="#Part-of-Speech-Tagging(POS)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part of Speech Tagging(POS)<a class="anchor-link" href="#Part-of-Speech-Tagging(POS)"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the above example we see the output has clearly label Apple as pronoun, looking as a verb etc.These are parts of speech.</p>
+<p>For a full list of POS Tags visit <a href="https://spacy.io/api/annotation#pos-tagging">https://spacy.io/api/annotation#pos-tagging</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dependencies">
+<a class="anchor" href="#Dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies<a class="anchor-link" href="#Dependencies"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also looked at the syntactic dependencies assigned to each token. <code>Tesla</code> is identified as an <code>nsubj</code> or the <strong><em>nominal subject</em></strong> of the sentence.</p>
+<p>For a full list of Syntactic Dependencies visit <a href="https://spacy.io/api/annotation#dependency-parsing">https://spacy.io/api/annotation#dependency-parsing</a>
+<br>A good explanation of typed dependencies can be found <a href="https://nlp.stanford.edu/software/dependencies_manual.pdf">here</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Full name of a tag used in spacy</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s1">'PROPN'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'proper noun'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s1">'nsubj'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'nominal subject'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Additional-Token-Attributes">
+<a class="anchor" href="#Additional-Token-Attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Token Attributes<a class="anchor-link" href="#Additional-Token-Attributes"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tag</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:left">doc2[0].tag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>.text</code></td>
+<td style="text-align:center">The original word text<!-- .element: style="text-align:left;" -->
+</td>
+<td style="text-align:left"><code>Tesla</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.lemma_</code></td>
+<td style="text-align:center">The base form of the word</td>
+<td style="text-align:left"><code>tesla</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.pos_</code></td>
+<td style="text-align:center">The simple part-of-speech tag</td>
+<td style="text-align:left">
+<code>PROPN</code>/<code>proper noun</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.tag_</code></td>
+<td style="text-align:center">The detailed part-of-speech tag</td>
+<td style="text-align:left">
+<code>NNP</code>/<code>noun, proper singular</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.shape_</code></td>
+<td style="text-align:center">The word shape – capitalization, punctuation, digits</td>
+<td style="text-align:left"><code>Xxxxx</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.is_alpha</code></td>
+<td style="text-align:center">Is the token an alpha character?</td>
+<td style="text-align:left"><code>True</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.is_stop</code></td>
+<td style="text-align:center">Is the token part of a stop list, i.e. the most common words of the language?</td>
+<td style="text-align:left"><code>False</code></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc2</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc2</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">lemma_</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>looking
+look
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s1">': '</span> <span class="o">+</span> <span class="n">doc2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s1">': '</span> <span class="o">+</span> <span class="n">doc</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">shape_</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Apple: Xxxxx
+U.S.: X.X.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Large Doc objects can be hard to work with at times. A <strong>span</strong> is a slice of Doc object in the form <code>Doc[start:stop]</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc3</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'Although commmonly attributed to John Lennon from his song "Beautiful Boy", </span><span class="se">\</span>
+<span class="s1">the phrase "Life is what happens to us while we are making other plans" was written by </span><span class="se">\</span>
+<span class="s1">cartoonist Allen Saunders and published in Reader</span><span class="se">\'</span><span class="s1">s Digest in 1957, when Lennon was 17.'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">life_qoute</span> <span class="o">=</span> <span class="n">doc3</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">life_qoute</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>"Life is what happens to us while we are making other plans"
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">life_qoute</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>spacy.tokens.span.Span</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Certain tokens inside a Doc object may also receive a "start of sentence" tag. While this doesn't immediately build a list of sentences, these tags enable the generation of sentence segments through <code>Doc.sents</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc4</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'This is the first sentence. This is another sentence. This is the last sentence.'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc4</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is the first sentence.
+This is another sentence.
+This is the last sentence.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc4</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">is_sent_start</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/spacy/nlp-chapter-2/2022/07/01/2-1-Spacy-Basics.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
