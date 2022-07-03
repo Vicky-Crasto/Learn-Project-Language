@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>2.6 Vocabulary and Matching | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="2.6 Vocabulary and Matching" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post explains the basics of Spacy library used for NLP" />
+<meta property="og:description" content="The post explains the basics of Spacy library used for NLP" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/word-matcher/phrase-matcher/2022/07/01/2-6-Vocabulary-and-Matching.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/word-matcher/phrase-matcher/2022/07/01/2-6-Vocabulary-and-Matching.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-01T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="2.6 Vocabulary and Matching" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-01T00:00:00-05:00","datePublished":"2022-07-01T00:00:00-05:00","description":"The post explains the basics of Spacy library used for NLP","headline":"2.6 Vocabulary and Matching","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/word-matcher/phrase-matcher/2022/07/01/2-6-Vocabulary-and-Matching.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/word-matcher/phrase-matcher/2022/07/01/2-6-Vocabulary-and-Matching.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a><a class="page-link" href="/Learn-Project-Language/extras/test.html">An Example Markdown Post</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">2.6 Vocabulary and Matching</h1><p class="page-description">The post explains the basics of Spacy library used for NLP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-01T00:00:00-05:00" itemprop="datePublished">
+        Jul 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Rule-based-Matching">Rule-based Matching </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Creating-patterns">Creating patterns </a></li>
+<li class="toc-entry toc-h3"><a href="#Applying-the-matcher-to-a-Doc-object">Applying the matcher to a Doc object </a></li>
+<li class="toc-entry toc-h3"><a href="#Setting-pattern-options-and-quantifiers">Setting pattern options and quantifiers </a></li>
+<li class="toc-entry toc-h3"><a href="#Be-careful-with-lemmas!">Be careful with lemmas! </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Other-token-attributes">Other token attributes </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Token-wildcard">Token wildcard </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#PhraseMatcher">PhraseMatcher </a></li>
+<li class="toc-entry toc-h2"><a href="#Viewing-Matches">Viewing Matches </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-01-2-6-Vocabulary-and-Matching.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rule-based-Matching">
+<a class="anchor" href="#Rule-based-Matching" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule-based Matching<a class="anchor-link" href="#Rule-based-Matching"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>spaCy offers a rule-matching tool called <code>Matcher</code> that allows you to build a library of token patterns, then match those patterns against a Doc object to return a list of found matches. You can match on any part of the token including text and annotations, and you can add multiple patterns to the same matcher.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Perform standard imports</span>
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Import the Matcher library</span>
+<span class="kn">from</span> <span class="nn">spacy.matcher</span> <span class="kn">import</span> <span class="n">Matcher</span>
+<span class="n">matcher</span> <span class="o">=</span> <span class="n">Matcher</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font color="green">Here `matcher` is an object that pairs to the current `Vocab` object. We can add and remove specific named matchers to `matcher` as needed.</font></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Creating-patterns">
+<a class="anchor" href="#Creating-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating patterns<a class="anchor-link" href="#Creating-patterns"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In literature, the phrase 'solar power' might appear as one word or two, with or without a hyphen. In this section we'll develop a matcher named 'SolarPower' that finds all three:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solarpower'</span><span class="p">}]</span>
+<span class="n">pattern2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'power'</span><span class="p">}]</span>
+<span class="n">pattern3</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_PUNCT'</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'power'</span><span class="p">}]</span>
+
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern1</span><span class="p">,</span> <span class="n">pattern2</span><span class="p">,</span> <span class="n">pattern3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's break this down:</p>
+<ul>
+<li>
+<code>pattern1</code> looks for a single token whose lowercase text reads 'solarpower'</li>
+<li>
+<code>pattern2</code> looks for two adjacent tokens that read 'solar' and 'power' in that order</li>
+<li>
+<code>pattern3</code> looks for three adjacent tokens, with a middle token that can be any punctuation.<font color="green">*</font>
+</li>
+</ul>
+<p><font color="green">\* Remember that single spaces are not tokenized, so they don't count as punctuation.</font>
+<br>Once we define our patterns, we pass them into <code>matcher</code> with the name 'SolarPower', and set <em>callbacks</em> to <code>None</code> (more on callbacks later).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Applying-the-matcher-to-a-Doc-object">
+<a class="anchor" href="#Applying-the-matcher-to-a-Doc-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Applying the matcher to a Doc object<a class="anchor-link" href="#Applying-the-matcher-to-a-Doc-object"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'The Solar Power industry continues to grow as demand </span><span class="se">\</span>
+<span class="s1">for solarpower increases. Solar-power cars are gaining popularity.'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">found_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">found_matches</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(8656102463236116519, 1, 3), (8656102463236116519, 10, 11), (8656102463236116519, 13, 16)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>matcher</code> returns a list of tuples. Each tuple contains an ID for the match, with start &amp; end tokens that map to the span <code>doc[start:end]</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">match_id</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">found_matches</span><span class="p">:</span>
+    <span class="n">string_id</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">strings</span><span class="p">[</span><span class="n">match_id</span><span class="p">]</span>  <span class="c1"># get string representation</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>                    <span class="c1"># get the matched span</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">match_id</span><span class="p">,</span> <span class="n">string_id</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">span</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>8656102463236116519 SolarPower 1 3 Solar Power
+8656102463236116519 SolarPower 10 11 solarpower
+8656102463236116519 SolarPower 13 16 Solar-power
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>match_id</code> is simply the hash value of the <code>string_ID</code> 'SolarPower'</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Setting-pattern-options-and-quantifiers">
+<a class="anchor" href="#Setting-pattern-options-and-quantifiers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting pattern options and quantifiers<a class="anchor-link" href="#Setting-pattern-options-and-quantifiers"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can make token rules optional by passing an <code>'OP':'*'</code> argument. This lets us streamline our patterns list:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solarpower'</span><span class="p">}]</span>
+<span class="n">pattern2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_PUNCT'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'power'</span><span class="p">}]</span>
+
+<span class="c1"># Remove the old patterns to avoid duplication:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">)</span>
+
+<span class="c1"># Add the new set of patterns to the 'SolarPower' matcher:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern1</span><span class="p">,</span> <span class="n">pattern2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">found_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">found_matches</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(8656102463236116519, 1, 3), (8656102463236116519, 10, 11), (8656102463236116519, 13, 16)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This found both two-word patterns, with and without the hyphen!</p>
+<p>The following quantifiers can be passed to the <code>'OP'</code> key:</p>
+<table>
+<tr>
+<th>OP</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><span>\!</span></td>
+<td>Negate the pattern, by requiring it to match exactly 0 times</td>
+</tr>
+<tr>
+<td><span>?</span></td>
+<td>Make the pattern optional, by allowing it to match 0 or 1 times</td>
+</tr>
+<tr>
+<td><span>\+</span></td>
+<td>Require the pattern to match 1 or more times</td>
+</tr>
+<tr>
+<td><span>\*</span></td>
+<td>Allow the pattern to match zero or more times</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Be-careful-with-lemmas!">
+<a class="anchor" href="#Be-careful-with-lemmas!" aria-hidden="true"><span class="octicon octicon-link"></span></a>Be careful with lemmas!<a class="anchor-link" href="#Be-careful-with-lemmas!"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we wanted to match on both 'solar power' and 'solar powered', it might be tempting to look for the <em>lemma</em> of 'powered' and expect it to be 'power'. This is not always the case! The lemma of the <em>adjective</em> 'powered' is still 'powered':</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solarpower'</span><span class="p">}]</span>
+<span class="n">pattern2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_PUNCT'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LEMMA'</span><span class="p">:</span> <span class="s1">'power'</span><span class="p">}]</span> <span class="c1"># CHANGE THIS PATTERN</span>
+
+<span class="c1"># Remove the old patterns to avoid duplication:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">)</span>
+
+<span class="c1"># Add the new set of patterns to the 'SolarPower' matcher:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern1</span><span class="p">,</span> <span class="n">pattern2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'Solar-powered energy runs solar-powered cars.'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">found_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">found_matches</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(8656102463236116519, 0, 3)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font color="green">The matcher found the first occurrence because the lemmatizer treated 'Solar-powered' as a verb, but not the second as it considered it an adjective.<br>For this case it may be better to set explicit token patterns.</font></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solarpower'</span><span class="p">}]</span>
+<span class="n">pattern2</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_PUNCT'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'power'</span><span class="p">}]</span>
+<span class="n">pattern3</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solarpowered'</span><span class="p">}]</span>
+<span class="n">pattern4</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'solar'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_PUNCT'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'powered'</span><span class="p">}]</span>
+
+<span class="c1"># Remove the old patterns to avoid duplication:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">)</span>
+
+<span class="c1"># Add the new set of patterns to the 'SolarPower' matcher:</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'SolarPower'</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pattern1</span><span class="p">,</span> <span class="n">pattern2</span><span class="p">,</span> <span class="n">pattern3</span><span class="p">,</span> <span class="n">pattern4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">found_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">found_matches</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(8656102463236116519, 0, 3), (8656102463236116519, 5, 8)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Other-token-attributes">
+<a class="anchor" href="#Other-token-attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other token attributes<a class="anchor-link" href="#Other-token-attributes"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Besides lemmas, there are a variety of token attributes we can use to determine matching rules:</p>
+<table>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><span>`ORTH`</span></td>
+<td>The exact verbatim text of a token</td>
+</tr>
+<tr>
+<td><span>`LOWER`</span></td>
+<td>The lowercase form of the token text</td>
+</tr>
+<tr>
+<td><span>`LENGTH`</span></td>
+<td>The length of the token text</td>
+</tr>
+<tr>
+<td><span>`IS_ALPHA`, `IS_ASCII`, `IS_DIGIT`</span></td>
+<td>Token text consists of alphanumeric characters, ASCII characters, digits</td>
+</tr>
+<tr>
+<td><span>`IS_LOWER`, `IS_UPPER`, `IS_TITLE`</span></td>
+<td>Token text is in lowercase, uppercase, titlecase</td>
+</tr>
+<tr>
+<td><span>`IS_PUNCT`, `IS_SPACE`, `IS_STOP`</span></td>
+<td>Token is punctuation, whitespace, stop word</td>
+</tr>
+<tr>
+<td><span>`LIKE_NUM`, `LIKE_URL`, `LIKE_EMAIL`</span></td>
+<td>Token text resembles a number, URL, email</td>
+</tr>
+<tr>
+<td><span>`POS`, `TAG`, `DEP`, `LEMMA`, `SHAPE`</span></td>
+<td>The token's simple and extended part-of-speech tag, dependency label, lemma, shape</td>
+</tr>
+<tr>
+<td><span>`ENT_TYPE`</span></td>
+<td>The token's entity label</td>
+</tr>
+
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Token-wildcard">
+<a class="anchor" href="#Token-wildcard" aria-hidden="true"><span class="octicon octicon-link"></span></a>Token wildcard<a class="anchor-link" href="#Token-wildcard"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can pass an empty dictionary <code>{}</code> as a wildcard to represent <strong>any token</strong>. For example, you might want to retrieve hashtags without knowing what might follow the <code>#</code> character:</p>
+<blockquote>
+<p><code>[{'ORTH':'#'}, {}]</code></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PhraseMatcher">
+<a class="anchor" href="#PhraseMatcher" aria-hidden="true"><span class="octicon octicon-link"></span></a>PhraseMatcher<a class="anchor-link" href="#PhraseMatcher"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the above section we used token patterns to perform rule-based matching. An alternative - and often more efficient - method is to match on terminology lists. In this case we use PhraseMatcher to create a Doc object from a list of phrases, and pass that into <code>matcher</code> instead.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">spacy.matcher</span> <span class="kn">import</span> <span class="n">PhraseMatcher</span>
+<span class="n">matcher</span> <span class="o">=</span> <span class="n">PhraseMatcher</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this exercise we're going to import a Wikipedia article on <em>Reaganomics</em><br>
+Source: <a href="https://en.wikipedia.org/wiki/Reaganomics">https://en.wikipedia.org/wiki/Reaganomics</a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'../TextFiles/reaganomics.txt'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">doc3</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phrase_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'voodoo economics'</span><span class="p">,</span> <span class="s1">'supply-side economics'</span><span class="p">,</span> <span class="s1">'trickle-down economics'</span><span class="p">,</span> <span class="s1">'free-market economics'</span><span class="p">]</span>
+
+<span class="c1"># Next, convert each phrase to a Doc object:</span>
+<span class="n">phrase_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">phrase_list</span><span class="p">]</span>
+
+<span class="c1"># Pass each Doc object into matcher (note the use of the asterisk!):</span>
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'VoodooEconomics'</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">phrase_patterns</span><span class="p">)</span>
+
+<span class="c1"># Build a list of matches:</span>
+<span class="n">matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">matches</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(3473369816841043438, 41, 45),
+ (3473369816841043438, 49, 53),
+ (3473369816841043438, 54, 56),
+ (3473369816841043438, 61, 65),
+ (3473369816841043438, 673, 677),
+ (3473369816841043438, 2985, 2989)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font color="green">The first four matches are where these terms are used in the definition of Reaganomics:</font></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc3</span><span class="p">[:</span><span class="mi">70</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>REAGANOMICS
+https://en.wikipedia.org/wiki/Reaganomics
+
+Reaganomics (a portmanteau of [Ronald] Reagan and economics attributed to Paul Harvey)[1] refers to the economic policies promoted by U.S. President Ronald Reagan during the 1980s. These policies are commonly associated with supply-side economics, referred to as trickle-down economics or voodoo economics by political opponents, and free-market economics by political advocates.
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Viewing-Matches">
+<a class="anchor" href="#Viewing-Matches" aria-hidden="true"><span class="octicon octicon-link"></span></a>Viewing Matches<a class="anchor-link" href="#Viewing-Matches"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are a few ways to fetch the text surrounding a match. The simplest is to grab a slice of tokens from the doc that is wider than the match:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc3</span><span class="p">[</span><span class="mi">665</span><span class="p">:</span><span class="mi">685</span><span class="p">]</span>  <span class="c1"># Note that the fifth match starts at doc3[673]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>same time he attracted a following from the supply-side economics movement, which formed in opposition to Keynesian</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc3</span><span class="p">[</span><span class="mi">2975</span><span class="p">:</span><span class="mi">2995</span><span class="p">]</span>  <span class="c1"># The sixth match starts at doc3[2985]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>against institutions.[66] His policies became widely known as "trickle-down economics", due to the significant</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another way is to first apply the <code>sentencizer</code> to the Doc, then iterate through the sentences to the match point:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sents</span> <span class="o">=</span> <span class="p">[</span><span class="n">sent</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc3</span><span class="o">.</span><span class="n">sents</span><span class="p">]</span>
+
+ <span class="c1">### In the next section we'll see that sentences contain start and end token values:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 35
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sents</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">matches</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">sent</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>  <span class="c1"># this is the fifth match, that starts at doc3[673]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>At the same time he attracted a following from the supply-side economics movement, which formed in opposition to Keynesian demand-stimulus economics.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For additional information visit <a href="https://spacy.io/usage/linguistic-features#section-rule-based-matching">https://spacy.io/usage/linguistic-features#section-rule-based-matching</a></p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/word-matcher/phrase-matcher/2022/07/01/2-6-Vocabulary-and-Matching.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
