@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>3.1 Part of Speech Basics | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="3.1 Part of Speech Basics" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post explains the basics of Spacy library used for NLP" />
+<meta property="og:description" content="The post explains the basics of Spacy library used for NLP" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-04T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="3.1 Part of Speech Basics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-04T00:00:00-05:00","datePublished":"2022-07-04T00:00:00-05:00","description":"The post explains the basics of Spacy library used for NLP","headline":"3.1 Part of Speech Basics","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a><a class="page-link" href="/Learn-Project-Language/extras/test.html">An Example Markdown Post</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">3.1  Part of Speech Basics</h1><p class="page-description">The post explains the basics of Spacy library used for NLP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-04T00:00:00-05:00" itemprop="datePublished">
+        Jul 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#View-token-tags">View token tags </a></li>
+<li class="toc-entry toc-h2"><a href="#Coarse-grained-Part-of-speech-Tags">Coarse-grained Part-of-speech Tags </a></li>
+<li class="toc-entry toc-h2"><a href="#Fine-grained-Part-of-speech-Tags">Fine-grained Part-of-speech Tags </a></li>
+<li class="toc-entry toc-h2"><a href="#Working-with-POS-Tags">Working with POS Tags </a></li>
+<li class="toc-entry toc-h2"><a href="#Counting-POS-Tags">Counting POS Tags </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Create-a-frequency-list-of-POS-tags-from-the-entire-document">Create a frequency list of POS tags from the entire document </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Fine-grained-POS-Tag-Examples">Fine-grained POS Tag Examples </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-04-3-1-POS-Basics.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The challenge of correctly identifying parts of speech is summed up nicely in the <a href="https://spacy.io/usage/linguistic-features">spaCy docs</a>:</p>
+<p></p>
+<div class="alert alert-info" style="margin: 20px">Processing raw text intelligently is difficult: most words are rare, and it's common for words that look completely different to mean almost the same thing. The same words in a different order can mean something completely different. Even splitting text into useful word-like units can be difficult in many languages. While it's possible to solve some problems starting from only the raw characters, it's usually better to use linguistic knowledge to add useful information. That's exactly what spaCy is designed to do: you put in raw text, and get back a **Doc** object, that comes with a variety of annotations.</div>
+In this section we'll take a closer look at coarse POS tags (noun, verb, adjective) and fine-grained tags (plural noun, past-tense verb, superlative adjective).
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s2">"The quick brown fox jumped over the lazy dog's back."</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="View-token-tags">
+<a class="anchor" href="#View-token-tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>View token tags<a class="anchor-link" href="#View-token-tags"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Recall that you can obtain a particular token by its index position.</p>
+<ul>
+<li>To view the coarse POS tag use <code>token.pos_</code>
+</li>
+<li>To view the fine-grained tag use <code>token.tag_</code>
+</li>
+<li>To view the description of either type of tag use <code>spacy.explain(tag)</code>
+</li>
+</ul>
+<div class="alert alert-success">Note that `token.pos` and `token.tag` return integer hash values; by adding the underscores we get the text equivalent that lives in **doc.vocab**.</div>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The quick brown fox jumped over the lazy dog's back.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">doc</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span><span class="p">,</span> <span class="n">doc</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">tag_</span><span class="p">,</span> <span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">tag_</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>jumped VERB VBD verb, past tense
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can apply this technique to the entire Doc object:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="si">:{</span><span class="mi">8</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="si">:{</span><span class="mi">6</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The        DET      DT     determiner
+quick      ADJ      JJ     adjective (English), other noun-modifier (Chinese)
+brown      ADJ      JJ     adjective (English), other noun-modifier (Chinese)
+fox        NOUN     NN     noun, singular or mass
+jumped     VERB     VBD    verb, past tense
+over       ADP      IN     conjunction, subordinating or preposition
+the        DET      DT     determiner
+lazy       ADJ      JJ     adjective (English), other noun-modifier (Chinese)
+dog        NOUN     NN     noun, singular or mass
+'s         PART     POS    possessive ending
+back       NOUN     NN     noun, singular or mass
+.          PUNCT    .      punctuation mark, sentence closer
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Coarse-grained-Part-of-speech-Tags">
+<a class="anchor" href="#Coarse-grained-Part-of-speech-Tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coarse-grained Part-of-speech Tags<a class="anchor-link" href="#Coarse-grained-Part-of-speech-Tags"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Every token is assigned a POS Tag from the following list:</p>
+<p></p>
+<table>
+<tr>
+<th>POS</th>
+<th>DESCRIPTION</th>
+<th>EXAMPLES</th>
+</tr>&lt;/p&gt;
+<tr>
+<td>ADJ</td>
+<td>adjective</td>
+<td>*big, old, green, incomprehensible, first*</td>
+</tr>
+<tr>
+<td>ADP</td>
+<td>adposition</td>
+<td>*in, to, during*</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>adverb</td>
+<td>*very, tomorrow, down, where, there*</td>
+</tr>
+<tr>
+<td>AUX</td>
+<td>auxiliary</td>
+<td>*is, has (done), will (do), should (do)*</td>
+</tr>
+<tr>
+<td>CONJ</td>
+<td>conjunction</td>
+<td>*and, or, but*</td>
+</tr>
+<tr>
+<td>CCONJ</td>
+<td>coordinating conjunction</td>
+<td>*and, or, but*</td>
+</tr>
+<tr>
+<td>DET</td>
+<td>determiner</td>
+<td>*a, an, the*</td>
+</tr>
+<tr>
+<td>INTJ</td>
+<td>interjection</td>
+<td>*psst, ouch, bravo, hello*</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td>noun</td>
+<td>*girl, cat, tree, air, beauty*</td>
+</tr>
+<tr>
+<td>NUM</td>
+<td>numeral</td>
+<td>*1, 2017, one, seventy-seven, IV, MMXIV*</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>particle</td>
+<td>*'s, not,*</td>
+</tr>
+<tr>
+<td>PRON</td>
+<td>pronoun</td>
+<td>*I, you, he, she, myself, themselves, somebody*</td>
+</tr>
+<tr>
+<td>PROPN</td>
+<td>proper noun</td>
+<td>*Mary, John, London, NATO, HBO*</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td>punctuation</td>
+<td>*., (, ), ?*</td>
+</tr>
+<tr>
+<td>SCONJ</td>
+<td>subordinating conjunction</td>
+<td>*if, while, that*</td>
+</tr>
+<tr>
+<td>SYM</td>
+<td>symbol</td>
+<td>*$, %, §, ©, +, −, ×, ÷, =, :), 😝*</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>verb</td>
+<td>*run, runs, running, eat, ate, eating*</td>
+</tr>
+<tr>
+<td>X</td>
+<td>other</td>
+<td>*sfpksdpsxmsa*</td>
+</tr>
+<tr>
+<td>SPACE</td>
+<td>space</td>
+</tr>
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Fine-grained-Part-of-speech-Tags">
+<a class="anchor" href="#Fine-grained-Part-of-speech-Tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fine-grained Part-of-speech Tags<a class="anchor-link" href="#Fine-grained-Part-of-speech-Tags"> </a>
+</h2>
+<p>Tokens are subsequently given a fine-grained tag as determined by morphology:</p>
+<table>
+<tr>
+<th>POS</th>
+<th>Description</th>
+<th>Fine-grained Tag</th>
+<th>Description</th>
+<th>Morphology</th>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>adjective</td>
+<td>AFX</td>
+<td>affix</td>
+<td>Hyph=yes</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>JJ</td>
+<td>adjective</td>
+<td>Degree=pos</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>JJR</td>
+<td>adjective, comparative</td>
+<td>Degree=comp</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>JJS</td>
+<td>adjective, superlative</td>
+<td>Degree=sup</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>PDT</td>
+<td>predeterminer</td>
+<td>AdjType=pdt PronType=prn</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>PRP\$</td>
+<td>pronoun, possessive</td>
+<td>PronType=prs Poss=yes</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>WDT</td>
+<td>wh-determiner</td>
+<td>PronType=int rel</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td></td>
+<td>WP\$</td>
+<td>wh-pronoun, possessive</td>
+<td>Poss=yes PronType=int rel</td>
+</tr>
+<tr>
+<td>ADP</td>
+<td>adposition</td>
+<td>IN</td>
+<td>conjunction, subordinating or preposition</td>
+<td></td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>adverb</td>
+<td>EX</td>
+<td>existential there</td>
+<td>AdvType=ex</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td></td>
+<td>RB</td>
+<td>adverb</td>
+<td>Degree=pos</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td></td>
+<td>RBR</td>
+<td>adverb, comparative</td>
+<td>Degree=comp</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td></td>
+<td>RBS</td>
+<td>adverb, superlative</td>
+<td>Degree=sup</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td></td>
+<td>WRB</td>
+<td>wh-adverb</td>
+<td>PronType=int rel</td>
+</tr>
+<tr>
+<td>CONJ</td>
+<td>conjunction</td>
+<td>CC</td>
+<td>conjunction, coordinating</td>
+<td>ConjType=coor</td>
+</tr>
+<tr>
+<td>DET</td>
+<td>determiner</td>
+<td>DT</td>
+<td>determiner</td>
+<td></td>
+</tr>
+<tr>
+<td>INTJ</td>
+<td>interjection</td>
+<td>UH</td>
+<td>interjection</td>
+<td></td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td>noun</td>
+<td>NN</td>
+<td>noun, singular or mass</td>
+<td>Number=sing</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td></td>
+<td>NNS</td>
+<td>noun, plural</td>
+<td>Number=plur</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td></td>
+<td>WP</td>
+<td>wh-pronoun, personal</td>
+<td>PronType=int rel</td>
+</tr>
+<tr>
+<td>NUM</td>
+<td>numeral</td>
+<td>CD</td>
+<td>cardinal number</td>
+<td>NumType=card</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>particle</td>
+<td>POS</td>
+<td>possessive ending</td>
+<td>Poss=yes</td>
+</tr>
+<tr>
+<td>PART</td>
+<td></td>
+<td>RP</td>
+<td>adverb, particle</td>
+<td></td>
+</tr>
+<tr>
+<td>PART</td>
+<td></td>
+<td>TO</td>
+<td>infinitival to</td>
+<td>PartType=inf VerbForm=inf</td>
+</tr>
+<tr>
+<td>PRON</td>
+<td>pronoun</td>
+<td>PRP</td>
+<td>pronoun, personal</td>
+<td>PronType=prs</td>
+</tr>
+<tr>
+<td>PROPN</td>
+<td>proper noun</td>
+<td>NNP</td>
+<td>noun, proper singular</td>
+<td>NounType=prop Number=sign</td>
+</tr>
+<tr>
+<td>PROPN</td>
+<td></td>
+<td>NNPS</td>
+<td>noun, proper plural</td>
+<td>NounType=prop Number=plur</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td>punctuation</td>
+<td>-LRB-</td>
+<td>left round bracket</td>
+<td>PunctType=brck PunctSide=ini</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>-RRB-</td>
+<td>right round bracket</td>
+<td>PunctType=brck PunctSide=fin</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>,</td>
+<td>punctuation mark, comma</td>
+<td>PunctType=comm</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>:</td>
+<td>punctuation mark, colon or ellipsis</td>
+<td></td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>.</td>
+<td>punctuation mark, sentence closer</td>
+<td>PunctType=peri</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>''</td>
+<td>closing quotation mark</td>
+<td>PunctType=quot PunctSide=fin</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>""</td>
+<td>closing quotation mark</td>
+<td>PunctType=quot PunctSide=fin</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>``</td>
+<td>opening quotation mark</td>
+<td>PunctType=quot PunctSide=ini</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>HYPH</td>
+<td>punctuation mark, hyphen</td>
+<td>PunctType=dash</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>LS</td>
+<td>list item marker</td>
+<td>NumType=ord</td>
+</tr>
+<tr>
+<td>PUNCT</td>
+<td></td>
+<td>NFP</td>
+<td>superfluous punctuation</td>
+<td></td>
+</tr>
+<tr>
+<td>SYM</td>
+<td>symbol</td>
+<td>#</td>
+<td>symbol, number sign</td>
+<td>SymType=numbersign</td>
+</tr>
+<tr>
+<td>SYM</td>
+<td></td>
+<td>\$</td>
+<td>symbol, currency</td>
+<td>SymType=currency</td>
+</tr>
+<tr>
+<td>SYM</td>
+<td></td>
+<td>SYM</td>
+<td>symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>verb</td>
+<td>BES</td>
+<td>auxiliary "be"</td>
+<td></td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>HVS</td>
+<td>forms of "have"</td>
+<td></td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>MD</td>
+<td>verb, modal auxiliary</td>
+<td>VerbType=mod</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VB</td>
+<td>verb, base form</td>
+<td>VerbForm=inf</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VBD</td>
+<td>verb, past tense</td>
+<td>VerbForm=fin Tense=past</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VBG</td>
+<td>verb, gerund or present participle</td>
+<td>VerbForm=part Tense=pres Aspect=prog</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VBN</td>
+<td>verb, past participle</td>
+<td>VerbForm=part Tense=past Aspect=perf</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VBP</td>
+<td>verb, non-3rd person singular present</td>
+<td>VerbForm=fin Tense=pres</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td></td>
+<td>VBZ</td>
+<td>verb, 3rd person singular present</td>
+<td>VerbForm=fin Tense=pres Number=sing Person=3</td>
+</tr>
+<tr>
+<td>X</td>
+<td>other</td>
+<td>ADD</td>
+<td>email</td>
+<td></td>
+</tr>
+<tr>
+<td>X</td>
+<td></td>
+<td>FW</td>
+<td>foreign word</td>
+<td>Foreign=yes</td>
+</tr>
+<tr>
+<td>X</td>
+<td></td>
+<td>GW</td>
+<td>additional word in multi-word expression</td>
+<td></td>
+</tr>
+<tr>
+<td>X</td>
+<td></td>
+<td>XX</td>
+<td>unknown</td>
+<td></td>
+</tr>
+<tr>
+<td>SPACE</td>
+<td>space</td>
+<td>_SP</td>
+<td>space</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>NIL</td>
+<td>missing tag</td>
+<td></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For a current list of tags for all languages visit <a href="https://spacy.io/api/annotation#pos-tagging">https://spacy.io/api/annotation#pos-tagging</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Working-with-POS-Tags">
+<a class="anchor" href="#Working-with-POS-Tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with POS Tags<a class="anchor-link" href="#Working-with-POS-Tags"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the English language, the same string of characters can have different meanings, even within the same sentence. For this reason, morphology is important. <strong>spaCy</strong> uses machine learning algorithms to best predict the use of a token in a sentence. Is <em>"I read books on NLP"</em> present or past tense? Is <em>wind</em> a verb or a noun?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'I read books on NLP.'</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">pos_</span><span class="si">:{</span><span class="mi">8</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">tag_</span><span class="si">:{</span><span class="mi">6</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>read       VERB     VBD    verb, past tense
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s1">'I read a book on NLP.'</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">pos_</span><span class="si">:{</span><span class="mi">8</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">tag_</span><span class="si">:{</span><span class="mi">6</span><span class="si">}}</span><span class="s1"> </span><span class="si">{</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>read       VERB     VBD    verb, past tense
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the first example, with no other cues to work from, spaCy assumed that <strong><em>read</em></strong> was present tense.<br>In the second example the present tense form would be <strong><em>I am reading a book</em></strong>, so spaCy assigned the past tense.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Counting-POS-Tags">
+<a class="anchor" href="#Counting-POS-Tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>Counting POS Tags<a class="anchor-link" href="#Counting-POS-Tags"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>Doc.count_by()</code> method accepts a specific token attribute as its argument, and returns a frequency count of the given attribute as a dictionary object. Keys in the dictionary are the integer values of the given attribute ID, and values are the frequency. Counts of zero are not included.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="sa">u</span><span class="s2">"The quick brown fox jumped over the lazy dog's back."</span><span class="p">)</span>
+
+<span class="c1"># Count the frequencies of different coarse-grained POS tags:</span>
+<span class="n">POS_counts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">count_by</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">POS</span><span class="p">)</span>
+<span class="n">POS_counts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{90: 2, 84: 3, 92: 3, 100: 1, 85: 1, 94: 1, 97: 1}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This isn't very helpful until you decode the attribute ID:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="mi">83</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'LANG'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-a-frequency-list-of-POS-tags-from-the-entire-document">
+<a class="anchor" href="#Create-a-frequency-list-of-POS-tags-from-the-entire-document" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a frequency list of POS tags from the entire document<a class="anchor-link" href="#Create-a-frequency-list-of-POS-tags-from-the-entire-document"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since <code>POS_counts</code> returns a dictionary, we can obtain a list of keys with <code>POS_counts.items()</code>.<br>By sorting the list we have access to the tag and its count, in order.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">POS_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_items([(90, 2), (84, 3), (92, 3), (100, 1), (85, 1), (94, 1), (97, 1)])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">POS_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">5</span><span class="si">}}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>83. ADJ  : 3
+84. ADP  : 1
+89. DET  : 2
+91. NOUN : 3
+93. PART : 1
+96. PUNCT: 1
+99. VERB : 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">TAG_counts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">count_by</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">TAG</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">TAG_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">4</span><span class="si">}}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>74. POS : 1
+1292078113972184607. IN  : 1
+10554686591937588953. JJ  : 3
+12646065887601541794. .   : 1
+15267657372422890137. DT  : 2
+15308085513773655218. NN  : 3
+17109001835818727656. VBD : 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="alert alert-success">**Why did the ID numbers get so big?** In spaCy, certain text values are hardcoded into `Doc.vocab` and take up the first several hundred ID numbers. Strings like 'NOUN' and 'VERB' are used frequently by internal operations. Others, like fine-grained tags, are assigned hash values as needed.</div>
+<div class="alert alert-success">**Why don't SPACE tags appear?** In spaCy, only strings of spaces (two or more) are assigned tokens. Single spaces are not.</div>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEP_counts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">count_by</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">DEP</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">DEP_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">4</span><span class="si">}}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>402. amod: 3
+415. det : 2
+429. nsubj: 1
+439. pobj: 1
+440. poss: 1
+443. prep: 1
+445. punct: 1
+8110129090154140942. case: 1
+8206900633647566924. ROOT: 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here we've shown <code>spacy.attrs.POS</code>, <code>spacy.attrs.TAG</code> and <code>spacy.attrs.DEP</code>.<br>Refer back to the <strong>Vocabulary and Matching</strong> lecture from the previous section for a table of <strong>Other token attributes</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Fine-grained-POS-Tag-Examples">
+<a class="anchor" href="#Fine-grained-POS-Tag-Examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fine-grained POS Tag Examples<a class="anchor-link" href="#Fine-grained-POS-Tag-Examples"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p>These are some grammatical examples (shown in <strong>bold</strong>) of specific fine-grained tags. We've removed punctuation and rarely used tags:</p>
+<table>
+<tr>
+<th>POS</th>
+<th>TAG</th>
+<th>DESCRIPTION</th>
+<th>EXAMPLE</th>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>AFX</td>
+<td>affix</td>
+<td>The Flintstones were a **pre**-historic family.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>JJ</td>
+<td>adjective</td>
+<td>This is a **good** sentence.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>JJR</td>
+<td>adjective, comparative</td>
+<td>This is a **better** sentence.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>JJS</td>
+<td>adjective, superlative</td>
+<td>This is the **best** sentence.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>PDT</td>
+<td>predeterminer</td>
+<td>Waking up is **half** the battle.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>PRP\$</td>
+<td>pronoun, possessive</td>
+<td>**His** arm hurts.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>WDT</td>
+<td>wh-determiner</td>
+<td>It's blue, **which** is odd.</td>
+</tr>
+<tr>
+<td>ADJ</td>
+<td>WP\$</td>
+<td>wh-pronoun, possessive</td>
+<td>We don't know **whose** it is.</td>
+</tr>
+<tr>
+<td>ADP</td>
+<td>IN</td>
+<td>conjunction, subordinating or preposition</td>
+<td>It arrived **in** a box.</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>EX</td>
+<td>existential there</td>
+<td>**There** is cake.</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>RB</td>
+<td>adverb</td>
+<td>He ran **quickly**.</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>RBR</td>
+<td>adverb, comparative</td>
+<td>He ran **quicker**.</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>RBS</td>
+<td>adverb, superlative</td>
+<td>He ran **fastest**.</td>
+</tr>
+<tr>
+<td>ADV</td>
+<td>WRB</td>
+<td>wh-adverb</td>
+<td>**When** was that?</td>
+</tr>
+<tr>
+<td>CONJ</td>
+<td>CC</td>
+<td>conjunction, coordinating</td>
+<td>The balloon popped **and** everyone jumped.</td>
+</tr>
+<tr>
+<td>DET</td>
+<td>DT</td>
+<td>determiner</td>
+<td>**This** is **a** sentence.</td>
+</tr>
+<tr>
+<td>INTJ</td>
+<td>UH</td>
+<td>interjection</td>
+<td>**Um**, I don't know.</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td>NN</td>
+<td>noun, singular or mass</td>
+<td>This is a **sentence**.</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td>NNS</td>
+<td>noun, plural</td>
+<td>These are **words**.</td>
+</tr>
+<tr>
+<td>NOUN</td>
+<td>WP</td>
+<td>wh-pronoun, personal</td>
+<td>**Who** was that?</td>
+</tr>
+<tr>
+<td>NUM</td>
+<td>CD</td>
+<td>cardinal number</td>
+<td>I want **three** things.</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>POS</td>
+<td>possessive ending</td>
+<td>Fred**'s** name is short.</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>RP</td>
+<td>adverb, particle</td>
+<td>Put it **back**!</td>
+</tr>
+<tr>
+<td>PART</td>
+<td>TO</td>
+<td>infinitival to</td>
+<td>I want **to** go.</td>
+</tr>
+<tr>
+<td>PRON</td>
+<td>PRP</td>
+<td>pronoun, personal</td>
+<td>**I** want **you** to go.</td>
+</tr>
+<tr>
+<td>PROPN</td>
+<td>NNP</td>
+<td>noun, proper singular</td>
+<td>**Kilroy** was here.</td>
+</tr>
+<tr>
+<td>PROPN</td>
+<td>NNPS</td>
+<td>noun, proper plural</td>
+<td>The **Flintstones** were a pre-historic family.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>MD</td>
+<td>verb, modal auxiliary</td>
+<td>This **could** work.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VB</td>
+<td>verb, base form</td>
+<td>I want to **go**.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VBD</td>
+<td>verb, past tense</td>
+<td>This **was** a sentence.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VBG</td>
+<td>verb, gerund or present participle</td>
+<td>I am **going**.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VBN</td>
+<td>verb, past participle</td>
+<td>The treasure was **lost**.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VBP</td>
+<td>verb, non-3rd person singular present</td>
+<td>I **want** to go.</td>
+</tr>
+<tr>
+<td>VERB</td>
+<td>VBZ</td>
+<td>verb, 3rd person singular present</td>
+<td>He **wants** to go.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+&lt;/div&gt;
+ 
+
+</table>
+</div>
+</div></div>
+</div>
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
