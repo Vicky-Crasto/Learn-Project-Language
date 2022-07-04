@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>2.7 NLP Basics Practice | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="2.7 NLP Basics Practice" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post is a practice on the topics learnt in chapter 2" />
+<meta property="og:description" content="The post is a practice on the topics learnt in chapter 2" />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-02T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="2.7 NLP Basics Practice" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-02T00:00:00-05:00","datePublished":"2022-07-02T00:00:00-05:00","description":"The post is a practice on the topics learnt in chapter 2","headline":"2.7 NLP Basics Practice","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a><a class="page-link" href="/Learn-Project-Language/extras/test.html">An Example Markdown Post</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">2.7 NLP Basics Practice</h1><p class="page-description">The post is a practice on the topics learnt in chapter 2</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-02T00:00:00-05:00" itemprop="datePublished">
+        Jul 2, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-02-2-7-NLP-Basics-Practice.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this assessment we'll be using the short story <a href="https://en.wikipedia.org/wiki/An_Occurrence_at_Owl_Creek_Bridge"><em>An Occurrence at Owl Creek Bridge</em></a> by Ambrose Bierce (1890). <br>The story is in the public domain; the text file was obtained from <a href="https://www.gutenberg.org/ebooks/375.txt.utf-8">Project Gutenberg</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>1. Create a Doc object from the file <code>owlcreek.txt</code></strong><br></p>
+<blockquote>
+<p>HINT:Use <code>with open('../TextFiles/owlcreek.txt') as f:</code></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span><span class="p">[:</span><span class="mi">36</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>AN OCCURRENCE AT OWL CREEK BRIDGE
+
+by Ambrose Bierce
+
+I
+
+A man stood upon a railroad bridge in northern Alabama, looking down
+into the swift water twenty feet below.  </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data_files/owlcreek.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[:</span><span class="mi">36</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>AN OCCURRENCE AT OWL CREEK BRIDGE
+
+by Ambrose Bierce
+
+I
+
+A man stood upon a railroad bridge in northern Alabama, looking down
+into the swift water twenty feet below.  
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>2. How many tokens are contained in the file?</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4835</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>3. How many sentences are contained in the file?</strong><br>HINT: You'll want to build a list first!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>211</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+    <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+   
+
+<span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>205</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sents</span><span class="o">=</span> <span class="p">[</span><span class="n">sent</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">sents</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>205</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>4. Print the second sentence in the document</strong><br> HINT: Indexing starts at zero, and the title counts as the first sentence.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'AN OCCURRENCE AT OWL CREEK BRIDGE\n\nby Ambrose Bierce\n\nI\n\nA man stood upon a railroad bridge in northern Alabama, looking down\ninto the swift water twenty feet below.'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong> 5. For each token in the sentence above, print its <code>text</code>, <code>POS</code> tag, <code>dep</code> tag and <code>lemma</code><br>
+CHALLENGE: Have values line up in columns in the print output.</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>A DET det a
+man NOUN nsubj man
+stood VERB ROOT stand
+upon ADP prep upon
+a DET det a
+railroad NOUN compound railroad
+bridge NOUN pobj bridge
+in ADP prep in
+northern ADJ amod northern
+Alabama PROPN pobj alabama
+, PUNCT punct ,
+looking VERB advcl look
+down PART prt down
+
+ SPACE  
+
+into ADP prep into
+the DET det the
+swift ADJ amod swift
+water NOUN pobj water
+twenty NUM nummod twenty
+feet NOUN npadvmod foot
+below ADV advmod below
+. PUNCT punct .
+  SPACE   
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>A               DET   det        a              
+man             NOUN  nsubj      man            
+stood           VERB  ROOT       stand          
+upon            ADP   prep       upon           
+a               DET   det        a              
+railroad        NOUN  compound   railroad       
+bridge          NOUN  pobj       bridge         
+in              ADP   prep       in             
+northern        ADJ   amod       northern       
+Alabama         PROPN pobj       alabama        
+,               PUNCT punct      ,              
+looking         VERB  advcl      look           
+down            PART  prt        down           
+
+               SPACE            
+              
+into            ADP   prep       into           
+the             DET   det        the            
+swift           ADJ   amod       swift          
+water           NOUN  pobj       water          
+twenty          NUM   nummod     twenty         
+feet            NOUN  npadvmod   foot           
+below           ADV   advmod     below          
+.               PUNCT punct      .              
+                SPACE                           
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">**</span><span class="n">Solution</span><span class="o">**</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+    <span class="c1">#print(token.text,token.pos_,token.tag_,token.lemma_)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="si">:</span><span class="s1">&gt;</span><span class="si">{</span><span class="mi">10</span><span class="si">}}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        AN       DET       det        an
+OCCURRENCE      NOUN     nsubjoccurrence
+        AT       ADP      prep        at
+       OWL     PROPN  compound       OWL
+     CREEK      VERB      amod     CREEK
+    BRIDGE     PROPN  compound    BRIDGE
+        
+
+     SPACE       dep        
+
+
+        by       ADP      prep        by
+   Ambrose     PROPN  compound   Ambrose
+    Bierce     PROPN      pobj    Bierce
+        
+
+     SPACE       dep        
+
+
+         I      PRON     nsubj         I
+        
+
+     SPACE       dep        
+
+
+         A       DET       det         a
+       man      NOUN     nsubj       man
+     stood      VERB      ROOT     stand
+      upon     SCONJ      prep      upon
+         a       DET       det         a
+  railroad      NOUN  compound  railroad
+    bridge      NOUN      pobj    bridge
+        in       ADP      prep        in
+  northern       ADJ      amod  northern
+   Alabama     PROPN      pobj   Alabama
+         ,     PUNCT     punct         ,
+   looking      VERB     advcl      look
+      down       ADV    advmod      down
+         
+     SPACE       dep         
+
+      into       ADP      prep      into
+       the       DET       det       the
+     swift       ADJ      amod     swift
+     water      NOUN      pobj     water
+    twenty       NUM    nummod    twenty
+      feet      NOUN  npadvmod      foot
+     below       ADV    advmod     below
+         .     PUNCT     punct         .
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>6. Write a matcher called 'Swimming' that finds both occurrences of the phrase "swimming vigorously" in the text</strong><br>
+HINT: You should include an <code>'IS_SPACE': True</code> pattern between the two words!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">spacy.matcher</span> <span class="kn">import</span> <span class="n">Matcher</span>
+<span class="n">matcher</span> <span class="o">=</span> <span class="n">Matcher</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(12881893835109366681, 1274, 1277), (12881893835109366681, 3607, 3610)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'swimming'</span><span class="p">},{</span><span class="s1">'IS_SPACE'</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span><span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},{</span><span class="s1">'LOWER'</span><span class="p">:</span><span class="s1">'vigorously'</span><span class="p">}]</span>
+
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'Swimming'</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">C:\Users\VICKY~1.CRA\AppData\Local\Temp/ipykernel_8136/1760381471.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">      1</span> pattern <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-yellow-intense-fg ansi-bold">{</span><span class="ansi-blue-intense-fg ansi-bold">'LOWER'</span><span class="ansi-yellow-intense-fg ansi-bold">:</span> <span class="ansi-blue-intense-fg ansi-bold">'swimming'</span><span class="ansi-yellow-intense-fg ansi-bold">}</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-yellow-intense-fg ansi-bold">{</span><span class="ansi-blue-intense-fg ansi-bold">'IS_SPACE'</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-green-intense-fg ansi-bold">True</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">'OP'</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-blue-intense-fg ansi-bold">'*'</span><span class="ansi-yellow-intense-fg ansi-bold">}</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-yellow-intense-fg ansi-bold">{</span><span class="ansi-blue-intense-fg ansi-bold">'LOWER'</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-blue-intense-fg ansi-bold">'vigorously'</span><span class="ansi-yellow-intense-fg ansi-bold">}</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+<span class="ansi-green-fg">      2</span> 
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>matcher<span class="ansi-yellow-intense-fg ansi-bold">.</span>add<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">'Swimming'</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> pattern<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\spacy\matcher\matcher.pyx</span> in <span class="ansi-cyan-fg">spacy.matcher.matcher.Matcher.add</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: add() takes exactly 2 positional arguments (3 given)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note</strong> Check the update in the code - <a href="https://stackoverflow.com/questions/70321680/typeerror-add-takes-exactly-2-positional-arguments-3-given">https://stackoverflow.com/questions/70321680/typeerror-add-takes-exactly-2-positional-arguments-3-given</a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pattern</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'swimming'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'IS_SPACE'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'OP'</span><span class="p">:</span><span class="s1">'*'</span><span class="p">},</span> <span class="p">{</span><span class="s1">'LOWER'</span><span class="p">:</span> <span class="s1">'vigorously'</span><span class="p">}]</span>
+
+<span class="n">matcher</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'Swimming'</span><span class="p">,[</span><span class="n">pattern</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">found_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">found_matches</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(12881893835109366681, 1274, 1277), (12881893835109366681, 3609, 3612)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>7. Print the text surrounding each found match</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">1265</span><span class="p">:</span><span class="mi">1290</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>By diving I could evade the bullets and, swimming
+vigorously, reach the bank, take to the woods and get away home
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">3600</span><span class="p">:</span><span class="mi">3615</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>all this over his shoulder; he was now swimming
+vigorously with the current
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>EXTRA CREDIT:<br>Print the <em>sentence</em> that contains each found match</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>By diving I could evade the bullets and, swimming
+vigorously, reach the bank, take to the woods and get away home.  
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The hunted man saw all this over his shoulder; he was now swimming
+vigorously with the current.  
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">found_matches</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">sent</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> By diving I could evade the bullets and, swimming
+vigorously, reach the bank, take to the woods and get away home.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">found_matches</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">sent</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+The hunted man saw all this over his shoulder; he was now swimming
+vigorously with the current.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
