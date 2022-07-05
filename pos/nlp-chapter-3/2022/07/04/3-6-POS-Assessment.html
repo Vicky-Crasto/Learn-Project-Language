@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>3.6 Part of Speech - Practice | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="3.6 Part of Speech - Practice" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post provide additional practice on the concepts covering this chapter." />
+<meta property="og:description" content="The post provide additional practice on the concepts covering this chapter." />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/pos/nlp-chapter-3/2022/07/04/3-6-POS-Assessment.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/pos/nlp-chapter-3/2022/07/04/3-6-POS-Assessment.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-04T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="3.6 Part of Speech - Practice" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-04T00:00:00-05:00","datePublished":"2022-07-04T00:00:00-05:00","description":"The post provide additional practice on the concepts covering this chapter.","headline":"3.6 Part of Speech - Practice","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/pos/nlp-chapter-3/2022/07/04/3-6-POS-Assessment.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/pos/nlp-chapter-3/2022/07/04/3-6-POS-Assessment.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a><a class="page-link" href="/Learn-Project-Language/extras/test.html">An Example Markdown Post</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">3.6  Part of Speech - Practice</h1><p class="page-description">The post provide additional practice on the concepts covering this chapter.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-04T00:00:00-05:00" itemprop="datePublished">
+        Jul 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Parts-of-Speech-Assessment">Parts of Speech Assessment </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-04-3-6-POS-Assessment.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Parts-of-Speech-Assessment">
+<a class="anchor" href="#Parts-of-Speech-Assessment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parts of Speech Assessment<a class="anchor-link" href="#Parts-of-Speech-Assessment"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this assessment we'll be using the short story <a href="https://en.wikipedia.org/wiki/The_Tale_of_Peter_Rabbit">The Tale of Peter Rabbit</a> by Beatrix Potter (1902). <br>The story is in the public domain; the text file was obtained from <a href="https://www.gutenberg.org/ebooks/14838.txt.utf-8">Project Gutenberg</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>1. Create a Doc object from the file <code>peterrabbit.txt</code></strong><br></p>
+<blockquote>
+<p>HINT:Use <code>with open('../TextFiles/peterrabbit.txt') as f:</code></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data_files/peterrabbit.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span> <span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>2. For every token in the third sentence, print the token text, the POS tag, the fine-grained TAG tag, and the description of the fine-grained tag.</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>They         PRON   PRP    pronoun, personal
+lived        VERB   VBD    verb, past tense
+with         ADP    IN     conjunction, subordinating or preposition
+their        ADJ    PRP$   pronoun, possessive
+Mother       PROPN  NNP    noun, proper singular
+in           ADP    IN     conjunction, subordinating or preposition
+a            DET    DT     determiner
+sand         NOUN   NN     noun, singular or mass
+-            PUNCT  HYPH   punctuation mark, hyphen
+bank         NOUN   NN     noun, singular or mass
+,            PUNCT  ,      punctuation mark, comma
+underneath   ADP    IN     conjunction, subordinating or preposition
+the          DET    DT     determiner
+root         NOUN   NN     noun, singular or mass
+of           ADP    IN     conjunction, subordinating or preposition
+a            DET    DT     determiner
+
+            SPACE         None
+very         ADV    RB     adverb
+big          ADJ    JJ     adjective
+fir          NOUN   NN     noun, singular or mass
+-            PUNCT  HYPH   punctuation mark, hyphen
+tree         NOUN   NN     noun, singular or mass
+.            PUNCT  .      punctuation mark, sentence closer
+
+
+           SPACE  _SP    None
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sent</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}{</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+        SPACE     _SP       whitespace
+They      PRON      PRP       pronoun, personal
+lived     VERB      VBD       verb, past tense
+with      ADP       IN        conjunction, subordinating or preposition
+their     PRON      PRP$      pronoun, possessive
+Mother    PROPN     NNP       noun, proper singular
+in        ADP       IN        conjunction, subordinating or preposition
+a         DET       DT        determiner
+sand      NOUN      NN        noun, singular or mass
+-         PUNCT     HYPH      punctuation mark, hyphen
+bank      NOUN      NN        noun, singular or mass
+,         PUNCT     ,         punctuation mark, comma
+underneathADP       IN        conjunction, subordinating or preposition
+the       DET       DT        determiner
+root      NOUN      NN        noun, singular or mass
+of        ADP       IN        conjunction, subordinating or preposition
+a         DET       DT        determiner
+
+         SPACE     _SP       whitespace
+very      ADV       RB        adverb
+big       ADJ       JJ        adjective (English), other noun-modifier (Chinese)
+fir       NOUN      NN        noun, singular or mass
+-         PUNCT     HYPH      punctuation mark, hyphen
+tree      NOUN      NN        noun, singular or mass
+.         PUNCT     .         punctuation mark, sentence closer
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>3. Provide a frequency list of POS tags from the entire document</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> <span class="c1">###  type your code</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>83. ADJ  : 83
+84. ADP  : 127
+85. ADV  : 75
+88. CCONJ: 61
+89. DET  : 90
+91. NOUN : 176
+92. NUM  : 8
+93. PART : 36
+94. PRON : 72
+95. PROPN: 75
+96. PUNCT: 174
+99. VERB : 182
+102. SPACE: 99
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Solution</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">POS_counts</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">count_by</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">POS</span><span class="p">)</span>
+<span class="n">POS_counts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{90: 91,
+ 96: 73,
+ 85: 124,
+ 97: 171,
+ 93: 8,
+ 103: 99,
+ 86: 63,
+ 98: 20,
+ 92: 170,
+ 95: 108,
+ 100: 135,
+ 84: 56,
+ 89: 61,
+ 94: 30,
+ 87: 49}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">POS_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="si">:{</span><span class="mi">10</span><span class="si">}}</span><span class="s1">:  </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>84. ADJ       :  56
+85. ADP       :  124
+86. ADV       :  63
+87. AUX       :  49
+89. CCONJ     :  61
+90. DET       :  91
+92. NOUN      :  170
+93. NUM       :  8
+94. PART      :  30
+95. PRON      :  108
+96. PROPN     :  73
+97. PUNCT     :  171
+98. SCONJ     :  20
+100. VERB      :  135
+103. SPACE     :  99
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>4. CHALLENGE: What percentage of tokens are nouns?</strong><br>
+HINT: the attribute ID for 'NOUN' is 91</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">POS_counts</span><span class="p">[</span><span class="mi">92</span><span class="p">]</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">POS_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.13513513513513514</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>5. Display the Dependency Parse for the third sentence</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">displacy</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">style</span> <span class="o">=</span> <span class="s2">"dep"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="e21dada8d31143d0b3591b4a7bf5c04f-0" class="displacy" width="3550" height="574.5" direction="ltr" style="max-width: none; height: 574.5px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="50">
+
+</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">SPACE</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="225">They</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="225">PRON</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="400">lived</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="400">VERB</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="575">with</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="575">ADP</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="750">their</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="750">PRON</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="925">Mother</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="925">PROPN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1100">in</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1100">ADP</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1275">a</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1275">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1450">sand-</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1450">NOUN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1625">bank,</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1625">NOUN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1800">underneath</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1800">ADP</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="1975">the</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="1975">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="2150">root</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="2150">NOUN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="2325">of</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="2325">ADP</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="2500">a</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="2500">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="2675">
+</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="2675">SPACE</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="2850">very</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="2850">ADV</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="3025">big</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="3025">ADJ</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="3200">fir-</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="3200">NOUN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="484.5">
+    <tspan class="displacy-word" fill="currentColor" x="3375">tree.</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="3375">NOUN</tspan>
+</text>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-0" stroke-width="2px" d="M70,439.5 C70,264.5 385.0,264.5 385.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-0" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M70,441.5 L62,429.5 78,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-1" stroke-width="2px" d="M245,439.5 C245,352.0 380.0,352.0 380.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-1" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M245,441.5 L237,429.5 253,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-2" stroke-width="2px" d="M420,439.5 C420,352.0 555.0,352.0 555.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-2" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M555.0,441.5 L563.0,429.5 547.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-3" stroke-width="2px" d="M770,439.5 C770,352.0 905.0,352.0 905.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-3" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">poss</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M770,441.5 L762,429.5 778,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-4" stroke-width="2px" d="M595,439.5 C595,264.5 910.0,264.5 910.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-4" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M910.0,441.5 L918.0,429.5 902.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-5" stroke-width="2px" d="M420,439.5 C420,177.0 1090.0,177.0 1090.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-5" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1090.0,441.5 L1098.0,429.5 1082.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-6" stroke-width="2px" d="M1295,439.5 C1295,264.5 1610.0,264.5 1610.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-6" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1295,441.5 L1287,429.5 1303,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-7" stroke-width="2px" d="M1470,439.5 C1470,352.0 1605.0,352.0 1605.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-7" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1470,441.5 L1462,429.5 1478,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-8" stroke-width="2px" d="M1120,439.5 C1120,177.0 1615.0,177.0 1615.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-8" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1615.0,441.5 L1623.0,429.5 1607.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-9" stroke-width="2px" d="M420,439.5 C420,89.5 1795.0,89.5 1795.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-9" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1795.0,441.5 L1803.0,429.5 1787.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-10" stroke-width="2px" d="M1995,439.5 C1995,352.0 2130.0,352.0 2130.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-10" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M1995,441.5 L1987,429.5 2003,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-11" stroke-width="2px" d="M1820,439.5 C1820,264.5 2135.0,264.5 2135.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-11" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M2135.0,441.5 L2143.0,429.5 2127.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-12" stroke-width="2px" d="M2170,439.5 C2170,352.0 2305.0,352.0 2305.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-12" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">prep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M2305.0,441.5 L2313.0,429.5 2297.0,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-13" stroke-width="2px" d="M2520,439.5 C2520,89.5 3370.0,89.5 3370.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-13" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M2520,441.5 L2512,429.5 2528,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-14" stroke-width="2px" d="M2695,439.5 C2695,177.0 3365.0,177.0 3365.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-14" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">dep</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M2695,441.5 L2687,429.5 2703,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-15" stroke-width="2px" d="M2870,439.5 C2870,352.0 3005.0,352.0 3005.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-15" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">advmod</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M2870,441.5 L2862,429.5 2878,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-16" stroke-width="2px" d="M3045,439.5 C3045,264.5 3360.0,264.5 3360.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-16" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">amod</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M3045,441.5 L3037,429.5 3053,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-17" stroke-width="2px" d="M3220,439.5 C3220,352.0 3355.0,352.0 3355.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-17" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">compound</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M3220,441.5 L3212,429.5 3228,429.5" fill="currentColor"></path>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-18" stroke-width="2px" d="M2345,439.5 C2345,2.0 3375.0,2.0 3375.0,439.5" fill="none" stroke="currentColor"></path>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textpath xlink:href="#arrow-e21dada8d31143d0b3591b4a7bf5c04f-0-18" class="displacy-label" startoffset="50%" side="left" fill="currentColor" text-anchor="middle">pobj</textpath>
+    </text>
+    <path class="displacy-arrowhead" d="M3375.0,441.5 L3383.0,429.5 3367.0,429.5" fill="currentColor"></path>
+</g>
+</svg></span>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>6. Show the first two named entities from Beatrix Potter's <em>The Tale of Peter Rabbit</em> </strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The Tale of Peter Rabbit - WORK_OF_ART - Titles of books, songs, etc.
+Beatrix Potter - PERSON - People, including fictional
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">show_ents</span><span class="p">(</span><span class="n">docs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s1">' - '</span><span class="o">+</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span><span class="o">+</span><span class="s1">' - '</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"No entity found"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">ent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s1">' - '</span><span class="o">+</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span><span class="o">+</span><span class="s1">' - '</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Beatrix Potter - PERSON - People, including fictional
+1902 - DATE - Absolute or relative dates or periods
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>7. How many sentences are contained in <em>The Tale of Peter Rabbit</em>?</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>54</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>8. CHALLENGE: How many sentences contain named entities?</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> <span class="c1">###  type your code</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>49</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_ners</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">sentences</span> <span class="k">if</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">list_of_ners</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>23</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sent</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>23
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>9. CHALLENGE: Display the named entity visualization for <code>list_of_sents[0]</code> from the previous problem</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">displacy</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">style</span> <span class="o">=</span> <span class="s2">"ent"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<span class="tex2jax_ignore"><div class="entities" style="line-height: 2.5; direction: ltr">The Tale of Peter Rabbit, by 
+<mark class="entity" style="background: #aa9cfc; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
+    Beatrix Potter
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">PERSON</span>
+</mark>
+ (
+<mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
+    1902
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">DATE</span>
+</mark>
+).</div></span>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/pos/nlp-chapter-3/2022/07/04/3-6-POS-Assessment.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
