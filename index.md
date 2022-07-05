@@ -24,7 +24,7 @@ image: false
 <p><a href="https://vicky-crasto.github.io/Learn-Project-Language/spacy/stopwords/nlp-chapter-2/2022/07/02/2-7-NLP-Basics-Practice.html">2.7 NLP Basics Practice</a></p>
 <p><strong>3. Part of Speech</strong></p>
 <p><a href="https://vicky-crasto.github.io/Learn-Project-Language/pos/stopwords/nlp-chapter-3/2022/07/04/3-1-POS-Basics.html">3.1 Part of Speech Basics</a></p>
-3.2 Visualizing Part of Speech Basics
+<p><a href="https://vicky-crasto.github.io/Learn-Project-Language/pos/displacy/nlp-chapter-3/2022/07/04/3-2-Visualizing-POS.html">3.2 Visualizing Part of Speech Basics</a></p>
 <p><a href="https://vicky-crasto.github.io/Learn-Project-Language/ner/ents/noun-chunks/nlp-chapter-3/2022/07/04/3-3-NER-Named-Entity-Recognition.html">3.3 Named Entity Recognition (NER)</a>&nbsp;</p>
 <p><a href="https://vicky-crasto.github.io/Learn-Project-Language/ner/displacy/nlp-chapter-3/2022/07/04/3-4-Visualizing-NER.html">3.4 Visualizing Named Entities</a></p>
 <p><a href="https://vicky-crasto.github.io/Learn-Project-Language/pos/segmentation/nlp-chapter-3/2022/07/04/3-5-Sentence-Segmentation.html">3.5 Sentence Segmentation</a></p>
