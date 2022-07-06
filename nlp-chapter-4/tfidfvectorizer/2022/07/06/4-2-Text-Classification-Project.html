@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>4.2 Text Classification using Tfid | My experiments with NLP</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="4.2 Text Classification using Tfid" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The post explains how we classify movies reviews in positive and negative using TfidfVectorizier and classification machine learning model. Also it shows how pipelines are built to generate results." />
+<meta property="og:description" content="The post explains how we classify movies reviews in positive and negative using TfidfVectorizier and classification machine learning model. Also it shows how pipelines are built to generate results." />
+<link rel="canonical" href="https://vicky-crasto.github.io/Learn-Project-Language/nlp-chapter-4/tfidfvectorizer/2022/07/06/4-2-Text-Classification-Project.html" />
+<meta property="og:url" content="https://vicky-crasto.github.io/Learn-Project-Language/nlp-chapter-4/tfidfvectorizer/2022/07/06/4-2-Text-Classification-Project.html" />
+<meta property="og:site_name" content="My experiments with NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-06T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="4.2 Text Classification using Tfid" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-06T00:00:00-05:00","datePublished":"2022-07-06T00:00:00-05:00","description":"The post explains how we classify movies reviews in positive and negative using TfidfVectorizier and classification machine learning model. Also it shows how pipelines are built to generate results.","headline":"4.2 Text Classification using Tfid","mainEntityOfPage":{"@type":"WebPage","@id":"https://vicky-crasto.github.io/Learn-Project-Language/nlp-chapter-4/tfidfvectorizer/2022/07/06/4-2-Text-Classification-Project.html"},"url":"https://vicky-crasto.github.io/Learn-Project-Language/nlp-chapter-4/tfidfvectorizer/2022/07/06/4-2-Text-Classification-Project.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Learn-Project-Language/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://vicky-crasto.github.io/Learn-Project-Language/feed.xml" title="My experiments with NLP" /><link rel="shortcut icon" type="image/x-icon" href="/Learn-Project-Language/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Learn-Project-Language/">My experiments with NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Learn-Project-Language/about/">About Me</a><a class="page-link" href="/Learn-Project-Language/search/">Search</a><a class="page-link" href="/Learn-Project-Language/categories/">Tags</a><a class="page-link" href="/Learn-Project-Language/extras/test.html">An Example Markdown Post</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">4.2  Text Classification using Tfid</h1><p class="page-description">The post explains how we classify movies reviews in positive and negative using TfidfVectorizier and classification machine learning model. Also it shows how pipelines are built to generate results.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-06T00:00:00-05:00" itemprop="datePublished">
+        Jul 6, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Perform-imports-and-load-the-dataset">Perform imports and load the dataset </a></li>
+<li class="toc-entry toc-h2"><a href="#Check-for-missing-values:">Check for missing values: </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Detect-and-remove-NaN-values">Detect and remove NaN values </a></li>
+<li class="toc-entry toc-h3"><a href="#Detect-&-remove-empty-strings">Detect &amp; remove empty strings </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Model-building">Model building </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Splitting-into-train-and-test-set.">Splitting into train and test set. </a></li>
+<li class="toc-entry toc-h3"><a href="#Naive-Bayes-model">Naive Bayes model </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Advanced-Topic---Adding-Stopwords-to-CountVectorizer">Advanced Topic - Adding Stopwords to CountVectorizer </a></li>
+<li class="toc-entry toc-h2"><a href="#Testing-the-model">Testing the model </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-06-4-2-Text-Classification-Project.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this sections, we will do the following :</p>
+<ul>
+<li>Read in a collection of documents - a <em>corpus</em>
+</li>
+<li>Transform text into numerical vector data using a pipeline</li>
+<li>Create a classifier</li>
+<li>Fit/train the classifier</li>
+<li>Test the classifier on new data</li>
+<li>Evaluate performance</li>
+</ul>
+<p>For this project we'll use the Cornell University Movie Review polarity dataset v2.0 obtained from <a href="http://www.cs.cornell.edu/people/pabo/movie-review-data/">http://www.cs.cornell.edu/people/pabo/movie-review-data/</a></p>
+<p>In this exercise we'll try to develop a classification model as we did for the SMSSpamCollection dataset - that is, we'll try to predict the Positive/Negative labels based on text content alone. In an upcoming section we'll apply <em>Sentiment Analysis</em> to train models that have a deeper understanding of each review.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Perform-imports-and-load-the-dataset">
+<a class="anchor" href="#Perform-imports-and-load-the-dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Perform imports and load the dataset<a class="anchor-link" href="#Perform-imports-and-load-the-dataset"> </a>
+</h2>
+<p>The dataset contains the text of 2000 movie reviews. 1000 are positive, 1000 are negative, and the text has been preprocessed as a tab-delimited file.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data_files/moviereviews.tsv'</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>label</th>
+      <th>review</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>neg</td>
+      <td>how do films like mouse hunt get into theatres...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neg</td>
+      <td>some talented actresses are blessed with a dem...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pos</td>
+      <td>this has been an extraordinary year for austra...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pos</td>
+      <td>according to hollywood movies made in last few...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neg</td>
+      <td>my first press screening of 1998 and already i...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>First review</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'review'</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>how do films like mouse hunt get into theatres ? 
+isn't there a law or something ? 
+this diabolical load of claptrap from steven speilberg's dreamworks studio is hollywood family fare at its deadly worst . 
+mouse hunt takes the bare threads of a plot and tries to prop it up with overacting and flat-out stupid slapstick that makes comedies like jingle all the way look decent by comparison . 
+writer adam rifkin and director gore verbinski are the names chiefly responsible for this swill . 
+the plot , for what its worth , concerns two brothers ( nathan lane and an appalling lee evens ) who inherit a poorly run string factory and a seemingly worthless house from their eccentric father . 
+deciding to check out the long-abandoned house , they soon learn that it's worth a fortune and set about selling it in auction to the highest bidder . 
+but battling them at every turn is a very smart mouse , happy with his run-down little abode and wanting it to stay that way . 
+the story alternates between unfunny scenes of the brothers bickering over what to do with their inheritance and endless action sequences as the two take on their increasingly determined furry foe . 
+whatever promise the film starts with soon deteriorates into boring dialogue , terrible overacting , and increasingly uninspired slapstick that becomes all sound and fury , signifying nothing . 
+the script becomes so unspeakably bad that the best line poor lee evens can utter after another run in with the rodent is : " i hate that mouse " . 
+oh cringe ! 
+this is home alone all over again , and ten times worse . 
+one touching scene early on is worth mentioning . 
+we follow the mouse through a maze of walls and pipes until he arrives at his makeshift abode somewhere in a wall . 
+he jumps into a tiny bed , pulls up a makeshift sheet and snuggles up to sleep , seemingly happy and just wanting to be left alone . 
+it's a magical little moment in an otherwise soulless film . 
+a message to speilberg : if you want dreamworks to be associated with some kind of artistic credibility , then either give all concerned in mouse hunt a swift kick up the arse or hire yourself some decent writers and directors . 
+this kind of rubbish will just not do at all . 
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Check-for-missing-values:">
+<a class="anchor" href="#Check-for-missing-values:" aria-hidden="true"><span class="octicon octicon-link"></span></a>Check for missing values:<a class="anchor-link" href="#Check-for-missing-values:"> </a>
+</h2>
+<p>We have intentionally included records with missing data. Some have NaN values, others have short strings composed of only spaces. This might happen if a reviewer declined to provide a comment with their review. We will show two ways using pandas to identify and remove records containing empty data.</p>
+<ul>
+<li>NaN records are efficiently handled with <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.isnull.html">.isnull()</a> and <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.dropna.html">.dropna()</a>
+</li>
+<li>Strings that contain only whitespace can be handled with <a href="https://docs.python.org/3/library/stdtypes.html#str.isspace">.isspace()</a>, <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.itertuples.html">.itertuples()</a>, and <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop.html">.drop()</a>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Detect-and-remove-NaN-values">
+<a class="anchor" href="#Detect-and-remove-NaN-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Detect and remove NaN values<a class="anchor-link" href="#Detect-and-remove-NaN-values"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>label      0
+review    35
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>35 records show <strong>NaN</strong> (this stands for "not a number" and is equivalent to <em>None</em>). These are easily removed using the <code>.dropna()</code> pandas function.</p>
+<div class="alert alert-info" style="margin: 20px">CAUTION: By setting inplace=True, we permanently affect the DataFrame currently in memory, and this can't be undone. However, it does *not* affect the original source data. If we needed to, we could always load the original DataFrame from scratch.</div>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1965</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Detect-&amp;-remove-empty-strings">
+<a class="anchor" href="#Detect-&amp;-remove-empty-strings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Detect &amp; remove empty strings<a class="anchor-link" href="#Detect-&amp;-remove-empty-strings"> </a>
+</h3>
+<p>Technically, we're dealing with "whitespace only" strings. If the original .tsv file had contained empty strings, pandas <strong>.read_csv()</strong> would have assigned NaN values to those cells by default.</p>
+<p>In order to detect these strings we need to iterate over each row in the DataFrame. The <strong>.itertuples()</strong> pandas method is a good tool for this as it provides access to every field. For brevity we'll assign the names <code>i</code>, <code>lb</code> and <code>rv</code> to the <code>index</code>, <code>label</code> and <code>review</code> columns.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blanks</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">lb</span><span class="p">,</span><span class="n">rv</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rv</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+            <span class="n">blanks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">blanks</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[57, 71, 147, 151, 283, 307, 313, 323, 343, 351, 427, 501, 633, 675, 815, 851, 977, 1079, 1299, 1455, 1493, 1525, 1531, 1763, 1851, 1905, 1993]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'review'</span><span class="p">][</span><span class="mi">147</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'  '</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next we'll pass our list of index numbers to the <strong>.drop()</strong> method, and set <code>inplace=True</code> to make the change permanent.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">blanks</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1938</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>neg    969
+pos    969
+Name: label, dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-building">
+<a class="anchor" href="#Model-building" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model building<a class="anchor-link" href="#Model-building"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Splitting-into-train-and-test-set.">
+<a class="anchor" href="#Splitting-into-train-and-test-set." aria-hidden="true"><span class="octicon octicon-link"></span></a>Splitting into train and test set.<a class="anchor-link" href="#Splitting-into-train-and-test-set."> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'review'</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following action are done by the pipeline</p>
+<p>Vectorize the data &gt;&gt; train the model &gt;&gt; fit the model</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Building pipeline for Naive Bayes</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_clf_nb</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">'tfidf'</span><span class="p">,</span><span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                       <span class="p">(</span><span class="s1">'clf'</span><span class="p">,</span> <span class="n">MultinomialNB</span><span class="p">())])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Bulding pipeline for SVM</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_clf_lsvc</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">'tfidf'</span><span class="p">,</span><span class="n">TfidfVectorizer</span><span class="p">()),</span>
+                       <span class="p">(</span><span class="s1">'clf'</span><span class="p">,</span> <span class="n">LinearSVC</span><span class="p">())])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Naive-Bayes-model">
+<a class="anchor" href="#Naive-Bayes-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive Bayes model<a class="anchor-link" href="#Naive-Bayes-model"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_clf_nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(steps=[('tfidf', TfidfVectorizer()), ('clf', MultinomialNB())])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Results from Naive Bayes Model</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions_nb</span><span class="o">=</span> <span class="n">text_clf_nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Confusion Matrix </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_nb</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Classification Report </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_nb</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Accuracy</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_nb</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Confusion Matrix 
+
+
+[[287  21]
+ [130 202]]
+
+
+Classification Report 
+
+
+              precision    recall  f1-score   support
+
+         neg       0.69      0.93      0.79       308
+         pos       0.91      0.61      0.73       332
+
+    accuracy                           0.76       640
+   macro avg       0.80      0.77      0.76       640
+weighted avg       0.80      0.76      0.76       640
+
+
+
+Accuracy
+
+0.7640625
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Linear SVC mdoel</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_clf_lsvc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(steps=[('tfidf', TfidfVectorizer()), ('clf', LinearSVC())])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions_lsvc</span><span class="o">=</span> <span class="n">text_clf_lsvc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Confusion Matrix </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Classification Report </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Accuracy</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Confusion Matrix 
+
+
+[[259  49]
+ [ 49 283]]
+
+
+Classification Report 
+
+
+              precision    recall  f1-score   support
+
+         neg       0.84      0.84      0.84       308
+         pos       0.85      0.85      0.85       332
+
+    accuracy                           0.85       640
+   macro avg       0.85      0.85      0.85       640
+weighted avg       0.85      0.85      0.85       640
+
+
+
+Accuracy
+
+0.846875
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Based on text alone we correctly classified reviews as positive or negative <strong>84.7%</strong> of the time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Advanced-Topic---Adding-Stopwords-to-CountVectorizer">
+<a class="anchor" href="#Advanced-Topic---Adding-Stopwords-to-CountVectorizer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Advanced Topic - Adding Stopwords to CountVectorizer<a class="anchor-link" href="#Advanced-Topic---Adding-Stopwords-to-CountVectorizer"> </a>
+</h2>
+<p>By default, <strong>CountVectorizer</strong> and <strong>TfidfVectorizer</strong> do <em>not</em> filter stopwords. However, they offer some optional settings, including passing in your own stopword list.</p>
+<div class="alert alert-info" style="margin: 20px">CAUTION: There are some [known issues](http://aclweb.org/anthology/W18-2502) using Scikit-learn's built-in stopwords list. Some words that are filtered may in fact aid in classification. In this section we'll pass in our own stopword list, so that we know exactly what's being filtered.</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html">CountVectorizer</a> class accepts the following arguments:</p>
+<blockquote>
+<p><em>CountVectorizer(input='content', encoding='utf-8', decode_error='strict', strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None, <strong>stop_words=None</strong>, token_pattern='(?u)\b\w\w+\b', ngram_range=(1, 1), analyzer='word', max_df=1.0, min_df=1, max_features=None, vocabulary=None, binary=False, dtype=&lt;class 'numpy.int64'&gt;)</em></p>
+</blockquote>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidVectorizer</a> supports the same arguments and more. Under <em>stop_words</em> we have the following options:&gt; stop_words :<em>string {'english'}, list, or None (default)</em>
+That is, we can run <code>TfidVectorizer(stop_words='english')</code> to accept scikit-learn's built-in list,<br>
+or <code>TfidVectorizer(stop_words=[a, and, the])</code> to filter these three words. In practice we would assign our list to a variable and pass that in instead.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Scikit-learn's built-in list contains 318 stopwords:</p>
+<blockquote>
+<p></p>
+<pre>from sklearn.feature_extraction import text
+print(text.ENGLISH_STOP_WORDS)</pre>
+['a', 'about', 'above', 'across', 'after', 'afterwards', 'again', 'against', 'all', 'almost', 'alone', 'along', 'already', 'also', 'although', 'always', 'am', 'among', 'amongst', 'amoungst', 'amount', 'an', 'and', 'another', 'any', 'anyhow', 'anyone', 'anything', 'anyway', 'anywhere', 'are', 'around', 'as', 'at', 'back', 'be', 'became', 'because', 'become', 'becomes', 'becoming', 'been', 'before', 'beforehand', 'behind', 'being', 'below', 'beside', 'besides', 'between', 'beyond', 'bill', 'both', 'bottom', 'but', 'by', 'call', 'can', 'cannot', 'cant', 'co', 'con', 'could', 'couldnt', 'cry', 'de', 'describe', 'detail', 'do', 'done', 'down', 'due', 'during', 'each', 'eg', 'eight', 'either', 'eleven', 'else', 'elsewhere', 'empty', 'enough', 'etc', 'even', 'ever', 'every', 'everyone', 'everything', 'everywhere', 'except', 'few', 'fifteen', 'fifty', 'fill', 'find', 'fire', 'first', 'five', 'for', 'former', 'formerly', 'forty', 'found', 'four', 'from', 'front', 'full', 'further', 'get', 'give', 'go', 'had', 'has', 'hasnt', 'have', 'he', 'hence', 'her', 'here', 'hereafter', 'hereby', 'herein', 'hereupon', 'hers', 'herself', 'him', 'himself', 'his', 'how', 'however', 'hundred', 'i', 'ie', 'if', 'in', 'inc', 'indeed', 'interest', 'into', 'is', 'it', 'its', 'itself', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'ltd', 'made', 'many', 'may', 'me', 'meanwhile', 'might', 'mill', 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must', 'my', 'myself', 'name', 'namely', 'neither', 'never', 'nevertheless', 'next', 'nine', 'no', 'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'of', 'off', 'often', 'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'rather', 're', 'same', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'she', 'should', 'show', 'side', 'since', 'sincere', 'six', 'sixty', 'so', 'some', 'somehow', 'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 'system', 'take', 'ten', 'than', 'that', 'the', 'their', 'them', 'themselves', 'then', 'thence', 'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they', 'thick', 'thin', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout', 'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty', 'two', 'un', 'under', 'until', 'up', 'upon', 'us', 'very', 'via', 'was', 'we', 'well', 'were', 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter', 'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within', 'without', 'would', 'yet', 'you', 'your', 'yours', 'yourself', 'yourselves']
+</blockquote>
+<p>However, there are words in this list that may influence a classification of movie reviews. With this in mind, let's trim the list to just 60 words:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stopwords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'about'</span><span class="p">,</span> <span class="s1">'an'</span><span class="p">,</span> <span class="s1">'and'</span><span class="p">,</span> <span class="s1">'are'</span><span class="p">,</span> <span class="s1">'as'</span><span class="p">,</span> <span class="s1">'at'</span><span class="p">,</span> <span class="s1">'be'</span><span class="p">,</span> <span class="s1">'been'</span><span class="p">,</span> <span class="s1">'but'</span><span class="p">,</span> <span class="s1">'by'</span><span class="p">,</span> <span class="s1">'can'</span><span class="p">,</span> \
+             <span class="s1">'even'</span><span class="p">,</span> <span class="s1">'ever'</span><span class="p">,</span> <span class="s1">'for'</span><span class="p">,</span> <span class="s1">'from'</span><span class="p">,</span> <span class="s1">'get'</span><span class="p">,</span> <span class="s1">'had'</span><span class="p">,</span> <span class="s1">'has'</span><span class="p">,</span> <span class="s1">'have'</span><span class="p">,</span> <span class="s1">'he'</span><span class="p">,</span> <span class="s1">'her'</span><span class="p">,</span> <span class="s1">'hers'</span><span class="p">,</span> <span class="s1">'his'</span><span class="p">,</span> \
+             <span class="s1">'how'</span><span class="p">,</span> <span class="s1">'i'</span><span class="p">,</span> <span class="s1">'if'</span><span class="p">,</span> <span class="s1">'in'</span><span class="p">,</span> <span class="s1">'into'</span><span class="p">,</span> <span class="s1">'is'</span><span class="p">,</span> <span class="s1">'it'</span><span class="p">,</span> <span class="s1">'its'</span><span class="p">,</span> <span class="s1">'just'</span><span class="p">,</span> <span class="s1">'me'</span><span class="p">,</span> <span class="s1">'my'</span><span class="p">,</span> <span class="s1">'of'</span><span class="p">,</span> <span class="s1">'on'</span><span class="p">,</span> <span class="s1">'or'</span><span class="p">,</span> \
+             <span class="s1">'see'</span><span class="p">,</span> <span class="s1">'seen'</span><span class="p">,</span> <span class="s1">'she'</span><span class="p">,</span> <span class="s1">'so'</span><span class="p">,</span> <span class="s1">'than'</span><span class="p">,</span> <span class="s1">'that'</span><span class="p">,</span> <span class="s1">'the'</span><span class="p">,</span> <span class="s1">'their'</span><span class="p">,</span> <span class="s1">'there'</span><span class="p">,</span> <span class="s1">'they'</span><span class="p">,</span> <span class="s1">'this'</span><span class="p">,</span> \
+             <span class="s1">'to'</span><span class="p">,</span> <span class="s1">'was'</span><span class="p">,</span> <span class="s1">'we'</span><span class="p">,</span> <span class="s1">'were'</span><span class="p">,</span> <span class="s1">'what'</span><span class="p">,</span> <span class="s1">'when'</span><span class="p">,</span> <span class="s1">'which'</span><span class="p">,</span> <span class="s1">'who'</span><span class="p">,</span> <span class="s1">'will'</span><span class="p">,</span> <span class="s1">'with'</span><span class="p">,</span> <span class="s1">'you'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_clf_lsvc2</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">'tfidf'</span><span class="p">,</span><span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">stop_words</span> <span class="o">=</span> <span class="n">stopwords</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s1">'clf'</span><span class="p">,</span> <span class="n">LinearSVC</span><span class="p">())])</span>
+<span class="n">text_clf_lsvc2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(steps=[('tfidf',
+                 TfidfVectorizer(stop_words=['a', 'about', 'an', 'and', 'are',
+                                             'as', 'at', 'be', 'been', 'but',
+                                             'by', 'can', 'even', 'ever', 'for',
+                                             'from', 'get', 'had', 'has',
+                                             'have', 'he', 'her', 'hers', 'his',
+                                             'how', 'i', 'if', 'in', 'into',
+                                             'is', ...])),
+                ('clf', LinearSVC())])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions_lsvc2</span><span class="o">=</span> <span class="n">text_clf_lsvc2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Confusion Matrix </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Classification Report </span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Accuracy</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions_lsvc2</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Confusion Matrix 
+
+
+[[256  52]
+ [ 48 284]]
+
+
+Classification Report 
+
+
+              precision    recall  f1-score   support
+
+         neg       0.84      0.83      0.84       308
+         pos       0.85      0.86      0.85       332
+
+    accuracy                           0.84       640
+   macro avg       0.84      0.84      0.84       640
+weighted avg       0.84      0.84      0.84       640
+
+
+
+Accuracy
+
+0.84375
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We went from 84.7% without filtering stopwords to 84.4% after adding a stopword filter to our pipeline. Keep in mind that 2000 movie reviews is a relatively small dataset. The real gain from stripping stopwords is improved processing speed; depending on the size of the corpus, it might save hours.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Testing-the-model">
+<a class="anchor" href="#Testing-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing the model<a class="anchor-link" href="#Testing-the-model"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">myreview</span> <span class="o">=</span> <span class="s2">"A movie I really wanted to love was terrible. </span><span class="se">\</span>
+<span class="s2">I'm sure the producers had the best intentions, but the execution was lacking."</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">myreview</span> <span class="o">=</span> <span class="s2">"useless movies"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">text_clf_nb</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">myreview</span><span class="p">]))</span>  <span class="c1"># be sure to put "myreview" inside square brackets</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>['neg']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">text_clf_lsvc</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">myreview</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>['neg']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/Learn-Project-Language/nlp-chapter-4/tfidfvectorizer/2022/07/06/4-2-Text-Classification-Project.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Learn-Project-Language/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Learn-Project-Language/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Learn-Project-Language/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My learning notes for Natural Language processing</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
